@@ -1,11 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import MainImage from "./components/MainImage";
+import LandingPage from "./components/LandingPage";
 
 export default function Home() {
   return (
     <div>
-      <MainImage/>
+      <LandingPage/>
       {/* <main className={styles.main}>
         <Image
           className={styles.logo}
