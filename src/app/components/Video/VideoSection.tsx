@@ -39,8 +39,8 @@ function VideoSection() {
     <>
       {/* 영화 예고편 영상 리스트 */}
       <Box  sx={{padding:'20px'}}>
-        <Box sx={{ width: '100%', display:'flex',}}>
-          <Typography variant="h4">
+        <Box sx={{ width: '100%', display:'flex', paddingLeft:'20px'}}>
+          <Typography variant="h5">
             예고편
           </Typography>
           <Tabs

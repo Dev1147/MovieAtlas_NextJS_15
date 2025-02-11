@@ -46,7 +46,7 @@ function MainVideoRowListPage({movieId}:{movieId:{id:number}[]}) {
 
   return (
     <>
-      <Box sx={{display: 'flex', overflowX: 'scroll', gap: '20px', width:'100%', height:'250px', alignItems:'center', paddingLeft:'25px',paddingRight:'25px'}}>
+      <Box sx={{display: 'flex', overflowX: 'auto', gap: '20px', width:'100%', height:'250px', alignItems:'center', paddingLeft:'25px',paddingRight:'25px'}}>
         {Array.isArray(videoKey) &&videoKey.slice(0,5).map((video,index) => (
           <div key={index} className={style.imageList}>
             <iframe
