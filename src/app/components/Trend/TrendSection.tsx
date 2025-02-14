@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import {API_URI, API_KEY, IMAGE_BASE_URL} from '../Config';
 import Image from "next/image";
 import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
-import PosterRowListPage from './TrendRowListPage';
+import TrendRowListPage from './TrendRowListPage';
 
 
 function PosterSection() {
-   const [movieIdList, setMovieIdList] = useState<{id: Number, poster_path:string, title:string, backdrop_path:string, release_date: string, vote_average:number}[]>([]);
+   const [movieIdList, setMovieIdList] = useState<{id: number, poster_path:string, title:string, backdrop_path:string, release_date: string, vote_average:number}[]>([]);
   const [trendCategory, setTrendCategory] = useState('week');
 
   //트렌드 이번주, 오늘 변경경
@@ -68,7 +68,7 @@ function PosterSection() {
           </Tabs>
         </Box>
         {/* 영화 가로 이미지 리스트 */}
-        <PosterRowListPage movieInfo={movieIdList}/>
+        <TrendRowListPage movieInfo={movieIdList}/>
       </Box>
     </>
   )

@@ -17,7 +17,7 @@ function MainImage() {
 
   return (
     <>
-      <Box sx={{ width:'100%', height:'400px', marginTop:'100px', display:'flex', justifyContent:'center'}}>
+      <Box sx={{ width:'100%', height:'400px', marginTop:'0px', display:'flex', justifyContent:'center'}}>
         <Box sx={{ width:'1150px', height:'400px',position:'absolute'}}>
           {/* 대표 글 */}
           <Box sx={{position:'absolute', zIndex:'2', bottom:'100px',left:'30px', color:'white'}}>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react'
 import PosterSection from './Posters/PosterSection';
 import VideoSection from './Video/VideoSection';
@@ -6,6 +6,7 @@ import TrendSection from './Trend/TrendSection';
 import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
 import Footer from './common/Footer';
 import MainImage from './common/MainImage';
+import Menubar from './common/Menubar';
 
 type moviesData =  {
   adult: boolean;
@@ -34,6 +35,7 @@ function LandingPage() {
   return (
     <>
       <Box>
+
         {/* 대표 이미지 */}
         <MainImage/>
 
@@ -49,8 +51,7 @@ function LandingPage() {
 
 
         
-        {/* Footer */}
-        <Footer/>
+
       </Box>
     </>
   )

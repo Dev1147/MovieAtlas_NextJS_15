@@ -7,7 +7,7 @@ import PosterRowListPage from './PosterRowListPage';
 
 
 function PosterSection() {
-   const [movieIdList, setMovieIdList] = useState<{id: Number, poster_path:string, title:string, backdrop_path:string, release_date: string, vote_average:number}[]>([]);
+   const [movieIdList, setMovieIdList] = useState<{id: number, poster_path:string, title:string, backdrop_path:string, release_date: string, vote_average:number}[]>([]);
   const [imageCategory, setImageCategory] = useState('popular');
 
   //최신,인기 콘텐츠 이미지 변경

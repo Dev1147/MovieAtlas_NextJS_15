@@ -42,4 +42,5 @@ next-env.d.ts
 
 
 #api
-src\app\components\Config.ts
+Config.ts
+.env.local
