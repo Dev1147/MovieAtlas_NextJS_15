@@ -8,6 +8,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { DataGrid, GridColDef  } from '@mui/x-data-grid';
+
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
 function page() {
@@ -383,4 +384,4 @@ function page() {
   )
 }
 
-export default page
+export default page;

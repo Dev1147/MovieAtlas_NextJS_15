@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+
 function Menubar() {
 
   const router = useRouter();
@@ -54,24 +55,65 @@ function Menubar() {
 
     
 
+    
+
+    //useEffect(() => {
+      //사용자 가져오기
+      // const storedUserName = localStorage.getItem('userName');
+      // const storedToken  = localStorage.getItem('authToken');
+
+      // setUserName(storedUserName); // 상태 업데이트
+    //}, []);
+
+    
+
+    // 로그아웃 처리
+    // const handleLogout = () => {
+    
+    //   localStorage.removeItem('authToken')
+    //   localStorage.removeItem('userName'); // 로컬 스토리지에서 사용자 이름 삭제
+    //   setUserName(null); // 상태 초기화
+    // router.push('/auth/login');
+    // };
+
+
     const [userName, setUserName] = useState<string | null>(null);
 
     useEffect(() => {
-      //사용자 가져오기
-      const storedUserName = localStorage.getItem('userName');
-      const storedToken  = localStorage.getItem('authToken');
-
-      setUserName(storedUserName); // 상태 업데이트
+      // 쿠키에서 사용자,권한, 토큰을 읽어오기
+      const cookies = document.cookie.split('; ');
+      const userRole = cookies.find(cookie => cookie.startsWith('userrole='));
+      const userCookie = cookies.find(cookie => cookie.startsWith('username='));
+      //console.log(document.cookie)
+      // console.log(userCookie)
+      if (userCookie) {
+        const userName = userCookie.split('=')[1];
+       // console.log(userName);
+       setUserName(userName);  // 사용자명을 상태에 저장
+      }
     }, []);
 
-    // 로그아웃 처리
-    const handleLogout = () => {
+    const handleLogout  = async() => {
+      try {
+        const response = await fetch('/api/logout', {
+          method: 'POST',
+          //credentials: 'include',  // 쿠키를 포함하여 요청
+        });
     
-      localStorage.removeItem('authToken')
-      localStorage.removeItem('userName'); // 로컬 스토리지에서 사용자 이름 삭제
-      setUserName(null); // 상태 초기화
-    router.push('/auth/login');
-    };
+        const data = await response.json();
+        if (data.success) {
+          console.log('로그아웃 성공');
+          // 로그아웃 후 리디렉션하거나 UI 업데이트 등을 할 수 있습니다.
+          window.location.href = '/auth/login';  // 예: 로그인 페이지로 이동
+          //await router.push('/');
+        } else {
+          console.error('로그아웃 실패');
+        }
+      } catch (error) {
+        console.error('로그아웃 중 오류 발생:', error);
+      }
+    }
+    
 
   return (
     <div style={{marginBottom:'80px'}}>    
@@ -148,7 +190,7 @@ function Menubar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            The MovieAtlas
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {/* {pages.map((page) => (
