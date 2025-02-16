@@ -1,5 +1,7 @@
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react'
+import { jwtDecode } from "jwt-decode";
+import { BookmarkAdd, BookmarkBorder, Favorite, FavoriteBorder, PlayArrow } from '@mui/icons-material';
 
 export type MoviesInfo = {
   id:number, 
@@ -26,19 +28,37 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
 
   };
 
-  const getTokenFromCookie = () => {
-    const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
-    return match ? match[2] : null;
+  //단순 검증은 비추천 토큰 만료나 변조되어 유효할 수 있다고 함
+  // const getTokenFromCookie = () => {
+  //   const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+  //   return match ? match[2] : null;
+  // };
+
+  const getUserFromToken  = () => {
+     // 정규식을 사용하여 쿠키에서 "token" 값을 추출
+    const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
+    const token = match ? match[2] : null; // 실제 토큰 값만 추출
+
+    if(!token) return null;
+
+    try{
+      const decode = jwtDecode<{userId: string, username:string}>(token);
+      return decode;
+    }catch(error){
+      console.error("토큰 검증 실패: "+error);
+      return null;
+    }
+
   };
 
   useEffect(() => {
     const fetchFavoriteInfo = async () => {
-      const res = await fetch('/api/favorite/',
+      const res = await fetch(`/api/favorite/${movieId}`,
         {
-          method: "POST",
+          method: "GET",
           headers:{"Content-Type": "application/json"},
-          // credentials: 'include',
-          body:JSON.stringify({ variables })
+          credentials: 'include',
+          //body:JSON.stringify({ variables })
           
         }, 
       );
@@ -55,7 +75,7 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
   },[]);
 
   const onClickFavorited = async() => {
-    const token = getTokenFromCookie();
+    const token = getUserFromToken();
 
     if(!token){
       alert("로그인이 필요합니다");
@@ -107,7 +127,11 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
 
   return (
     <div>
-      <Button onClick={onClickFavorited}>{Favorited? "Not Favorite" : "Add to Favorite"} {FavoriteNumber}</Button>
+      <IconButton color="primary" onClick={onClickFavorited}>
+        {Favorited? <Favorite sx={{ color: 'red', fontSize: 30 }}/> : <FavoriteBorder sx={{ color: 'red', fontSize: 30 }}/> } 
+        {/* {FavoriteNumber}     */}
+      </IconButton>
+      {/* {Favorited? "Not Favorite"(클릭전) : "Add to Favorite"(클릭후)} */}  
     </div>
   )
 }

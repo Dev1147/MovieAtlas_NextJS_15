@@ -23,6 +23,9 @@ function Menubar() {
   const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
   const open1 = Boolean(anchorEl2);
 
+  const [anchorEl3, setAnchorEl3] = React.useState<null | HTMLElement>(null);
+  const open2 = Boolean(anchorEl3);
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -50,6 +53,13 @@ function Menubar() {
   };
   const handleGeneresClose = () => {
     setAnchorEl2(null);
+  };
+
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl3(event.currentTarget);
+  };
+  const handleFavoriteClose = () => {
+    setAnchorEl3(null);
   };
 
 
@@ -218,9 +228,9 @@ function Menubar() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleClose}>인기순</MenuItem>
-              <MenuItem onClick={handleClose}>평점순</MenuItem>
-              <MenuItem onClick={handleClose}>개봉예정</MenuItem>
+              <MenuItem onClick={handleClose}>영화검색</MenuItem>
+              {/* <MenuItem onClick={handleClose}>평점순</MenuItem>
+              <MenuItem onClick={handleClose}>개봉예정</MenuItem> */}
             </Menu>
 
             <Button  onClick={handleGeneresClick} sx={{ my: 2, color: 'white', display: 'block' }}>수익</Button>
@@ -235,6 +245,21 @@ function Menubar() {
               }}>
               <MenuItem onClick={handleGeneresClose}>
                <Link href='/charts/bar_chart' passHref>영화 수익</Link> 
+              </MenuItem>
+            </Menu>
+
+            <Button  onClick={handleFavoriteClick} sx={{ my: 2, color: 'white', display: 'block' }}>좋아요</Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl3}
+              open={open2}
+              onClose={handleFavoriteClose}
+              disableScrollLock={true}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}>
+              <MenuItem onClick={handleFavoriteClose}>
+               <Link href='/views/favoritePage' passHref>좋아요 페이지로</Link> 
               </MenuItem>
             </Menu>
           </Box>
@@ -263,13 +288,13 @@ function Menubar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                   
                 </MenuItem>
-              ))}
-              <Typography sx={{ textAlign: 'center' }}><Button onClick={handleLogout}>진짜 로그아웃</Button></Typography>
+              ))} */}
+              <Typography sx={{ textAlign: 'center' }}><Button onClick={handleLogout}>로그아웃</Button></Typography>
             </Menu>
           </Box>
           ):(

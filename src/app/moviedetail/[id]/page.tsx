@@ -170,16 +170,13 @@ function page() {
 
           {/* 좋아요, 트레일러 영상  */}
           <Box sx={{ display: 'flex', gap: 2 }}>
-            {/* <IconButton color="primary" > */}
-              <LikeButton movieId={movie.id} movieTitle={movie.title} moviePoster={movie.poster_path}/>
-              {/* <Favorite /> */}
-              {/* {checkFavorite ? <Favorite /> : <FavoriteBorder />} */}
-            {/* </IconButton> */}
 
-            <IconButton color="primary" >
+            <LikeButton movieId={movie.id} movieTitle={movie.title} moviePoster={movie.poster_path}/>
+            {/* <FavoriteBorder sx={{ color: red }}/> */}
+            {/* <IconButton color="primary" >
               <BookmarkAdd />
-              {/* {checkBookmark ? <BookmarkAdd /> : <BookmarkBorder />} */}
-            </IconButton>
+              {checkBookmark ? <BookmarkAdd /> : <BookmarkBorder />}
+            </IconButton> */}
               
             <IconButton color="primary" >
               <PlayArrow/>

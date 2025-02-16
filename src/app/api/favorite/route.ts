@@ -7,14 +7,11 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 //내가 좋아요한 목록가져오기
-export async function POST(req: NextRequest, res:NextResponse,) { 
+export async function GET(req: NextRequest, res:NextResponse,) { 
   //const {movieId, userForm}:{movieId:number, userForm:string} = await req.json();
-
-
-
-  const { variables } = await req.json(); // `variables` 객체를 먼저 받음
+  //const { variables } = await req.json(); // `variables` 객체를 먼저 받음
   //console.log("받은 데이터:", variables);
-  const { movieId, movieTitle, moviePoster } = variables;
+  //const { movieId, movieTitle, moviePoster } = variables;
 
   await connectToDatabase();
 
@@ -39,13 +36,13 @@ export async function POST(req: NextRequest, res:NextResponse,) {
     
       const userId = decoded.userId; 
 
-      const results =  await Favorite.findOne({movieId:movieId, userForm:userId});
+      const favorited  =  await Favorite.find({userForm:userId});
 
-      if(!results){
-        return NextResponse.json({success:true, message:'좋아요가 없습니다', favoriteNumber: results ? 1:0, favorited:false},{status:200});
+      if(!favorited){
+        return NextResponse.json({success:true, message:'좋아요가 없습니다'},{status:200});
       }
  
-      return NextResponse.json({success:true, message:'좋아요 조회 성공!', favoriteNumber: results ? 1:0, favorited:true},{status:200});
+      return NextResponse.json({success:true, message:'좋아요 조회 성공!', results: favorited },{status:200});
 
   }catch(error){
     return NextResponse.json({success:false},{status:400});
@@ -53,5 +50,25 @@ export async function POST(req: NextRequest, res:NextResponse,) {
 
 }
 
+//좋아요 목록을 삭제하기
+export async function DELETE(req:NextRequest, res:NextResponse) {
+
+  const {movieId, userForm}:{movieId:string, userForm:string} = await req.json();
+
+  try{
+
+    const exsistingFavorite  = await Favorite.findOne({movieId:movieId, userForm:userForm});
+
+    if(!exsistingFavorite){
+      return NextResponse.json({success:false, message:'좋아요가 존재 하지 않습니다.'},{status:400});
+    }
+
+    await Favorite.findOneAndDelete({movieId:movieId, userForm:userForm});
+
+    return NextResponse.json({success:true, message:'좋아요 삭제 성공!'},{status:200});
+  }catch(error){
+    return NextResponse.json({success:false},{status:400});
+  }
+}
 
 
