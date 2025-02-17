@@ -114,7 +114,7 @@ function Menubar() {
         if (data.success) {
           console.log('로그아웃 성공');
           // 로그아웃 후 리디렉션하거나 UI 업데이트 등을 할 수 있습니다.
-          window.location.href = '/auth/login';  // 예: 로그인 페이지로 이동
+          window.location.href = '/views/auth/login';  // 예: 로그인 페이지로 이동
           //await router.push('/');
         } else {
           console.error('로그아웃 실패');
@@ -228,7 +228,9 @@ function Menubar() {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleClose}>영화검색</MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Link href='/views/search' passHref>영화검색</Link>
+              </MenuItem>
               {/* <MenuItem onClick={handleClose}>평점순</MenuItem>
               <MenuItem onClick={handleClose}>개봉예정</MenuItem> */}
             </Menu>
@@ -244,7 +246,7 @@ function Menubar() {
                 'aria-labelledby': 'basic-button',
               }}>
               <MenuItem onClick={handleGeneresClose}>
-               <Link href='/charts/bar_chart' passHref>영화 수익</Link> 
+               <Link href='/views/charts/bar_chart' passHref>영화 수익</Link> 
               </MenuItem>
             </Menu>
 
@@ -259,7 +261,7 @@ function Menubar() {
                 'aria-labelledby': 'basic-button',
               }}>
               <MenuItem onClick={handleFavoriteClose}>
-               <Link href='/views/favoritePage' passHref>좋아요 페이지로</Link> 
+               <Link href='/views/favorite' passHref>좋아요 페이지로</Link> 
               </MenuItem>
             </Menu>
           </Box>
@@ -300,7 +302,7 @@ function Menubar() {
           ):(
             <Box sx={{ flexGrow: 0 }}>
               {/* <Link href='/auth/login'>로그인</Link> */}
-              <Button color="inherit"  onClick={() => router.push('/auth/login')}>Login</Button>
+              <Button color="inherit"  onClick={() => router.push('/views/auth/login')}>Login</Button>
             </Box>
           )}
 

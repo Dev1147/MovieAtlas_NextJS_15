@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import User, {IUser} from "@/app/models/user";
+import User, {IUser} from "@/app/models/users";
 import { connectToDatabase } from "@/app/lib/mongoose";
 
 

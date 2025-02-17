@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import PosterSection from './Posters/PosterSection';
-import VideoSection from './Video/VideoSection';
-import TrendSection from './Trend/TrendSection';
+import PosterSection from '../components/Posters/PosterSection';
+import VideoSection from '../components/Video/VideoSection';
+import TrendSection from '../components/Trend/TrendSection';
 import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
-import Footer from './common/Footer';
-import MainImage from './common/MainImage';
-import Menubar from './common/Menubar';
+import MainImage from '../components/common/MainImage';
+import Footer from '../components/common/Footer';
+
 
 type moviesData =  {
   adult: boolean;
@@ -24,7 +24,7 @@ type moviesData =  {
   vote_count: number;
 }
 
-function LandingPage() {
+function page() {
 
 
   useEffect(()=>{
@@ -48,13 +48,9 @@ function LandingPage() {
         {/* 영화 예고편 영상 */}
         <VideoSection/>
 
-
-
-        
-
       </Box>
     </>
   )
 }
 
-export default LandingPage
+export default page

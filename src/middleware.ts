@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // 보호된 경로 목록
-  const protectedRoutes = [ '/admin/settings', '/charts/bar_chart','/views/favoritePage']; //'/moviedetail',
+  const protectedRoutes = ['/views/charts/bar_chart','/views/favorite']; //'/moviedetail',
 
   // 요청된 경로 가져오기
   const pathname = request.nextUrl.pathname;
@@ -24,12 +24,12 @@ export function middleware(request: NextRequest) {
 
     if (!token) {
       // 인증되지 않은 경우 로그인 페이지로 리디렉션
-      return NextResponse.redirect(new URL('/auth/login', request.url));
+      return NextResponse.redirect(new URL('/views/auth/login', request.url));
     }
 
     // userRole이 'user' 또는 'admin'이 아닌 경우 접근 차단 (비회원)
     if (userRole !== 'user' && userRole !== 'admin') {
-      return NextResponse.redirect(new URL('/403', request.url)); // 비회원은 403 페이지로 리디렉션
+      return NextResponse.redirect(new URL('/views/403', request.url)); // 비회원은 403 페이지로 리디렉션
     }
   }
 
@@ -39,5 +39,5 @@ export function middleware(request: NextRequest) {
 
 // 미들웨어가 적용될 경로 설정
 export const config = {
-  matcher: ['/moviedetail/:path*','/charts/bar_chart','/views/favoritePage'],  // 해당 경로에 미들웨어 적용
+  matcher: ['/views/charts/bar_chart','/views/favorite'],  // 해당 경로에 미들웨어 적용
 }

@@ -1,10 +1,11 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {API_URI, API_KEY, IMAGE_BASE_URL} from '../Config';
+import {API_URI, IMAGE_BASE_URL} from '../Config';
 import Image from "next/image";
 import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
 import TrendRowListPage from './TrendRowListPage';
 
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
 function PosterSection() {
    const [movieIdList, setMovieIdList] = useState<{id: number, poster_path:string, title:string, backdrop_path:string, release_date: string, vote_average:number}[]>([]);

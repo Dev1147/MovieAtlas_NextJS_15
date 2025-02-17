@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/app/lib/mongoose";
-import User, {IUser} from "@/app/models/user"
+import User, {IUser} from "@/app/models/users"
 import { NextRequest, NextResponse } from "next/server";
 import cookie from 'cookie';
 import jwt  from "jsonwebtoken";
@@ -17,13 +17,13 @@ export async function POST(req:NextRequest, res:NextResponse) {
     
 
     if(!user){
-      return NextResponse.json({success: false, message:'이메일과 사용자가 일치하지 않습니다.'},{status:400})
+      return NextResponse.json({success: false, message:'이메일은 사용자와 일치하지 않습니다.'},{status:400})
     }
     
     const isMatch = await user.comparePassword(password);
 
     if(!isMatch){
-      return NextResponse.json({success: false, message:'이메일과 사용자가 일치하지 않습니다.'},{status:400})
+      return NextResponse.json({success: false, message:'비밀번호는 사용자와 일치하지 않습니다.'},{status:400})
     }
 
     const token = jwt.sign({userId:user._id, role:user.role}, JWT_SECRET, {expiresIn:'1h'});

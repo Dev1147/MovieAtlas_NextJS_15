@@ -1,6 +1,6 @@
 
 import NextAuth from "next-auth";
-import { IUser } from "@/app/models/user";  // 유저 모델을 가져옵니다.
+import { IUser } from "@/app/models/users";  // 유저 모델을 가져옵니다.
 
 declare module "next-auth" {
   interface User extends IUser {

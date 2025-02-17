@@ -1,35 +1,34 @@
 import React, { useEffect,useState } from 'react'
-import {API_URI, API_KEY, IMAGE_BASE_URL} from '../Config';
+import {API_URI, IMAGE_BASE_URL} from '../Config';
 import { Box, Typography, Stack, Button, IconButton, Modal } from "@mui/material";
 import { Home, Search, Favorite, FavoriteBorder, BookmarkBorder, Bookmark, PlayArrow, Close, Height } from '@mui/icons-material';
 
-//필요할때 수정 다시 하자
-function VideoModal({openInfo, modalInfo}:{openInfo:boolean, modalInfo:{key:string | null, name:string | null}}) {
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
+
+//영화 아이디값 받기
+function VideoModal({movieId}:{movieId:number}) {
 
   const [videoKey, setVideoKey] = useState<{key:string | null, name:string | null}>({key:null, name:null});
 
-  const [open, setOpen] = React.useState(openInfo);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  
-  // 상위 컴넌트에 버튼을 추가해주세요
-  // const handleOpen = (movieId: number) => {
-  //   setOpen(true);
+  const [open, setOpen] = React.useState(false);
 
-  //   fetch(`${API_URI}movie/${movieId}/videos?api_key=${API_KEY}`)
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data.results[0]) //
-  //     setVideoKey(data.results[0]); //
-  //   })
-  // }
+  const handleOpen = (movieId: number) => {
+    setOpen(true);
+
+    fetch(`${API_URI}movie/${movieId}/videos?api_key=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+      //console.log(data.results[0]) //
+      setVideoKey(data.results[0]); //
+    })
+  }
 
   const handleClose = () => {
     setOpen(false);
     setVideoKey({key:null, name:null});
   }
   
-  const style = {
+  const modalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -44,27 +43,37 @@ function VideoModal({openInfo, modalInfo}:{openInfo:boolean, modalInfo:{key:stri
   };
 
   useEffect(() =>{
-    setOpen(openInfo)
-  },[openInfo])
-  console.log(open)
+    //setOpen(openInfo);
+  },[]);
+ 
+
   return (
     <div>
+      {/* 배경화면 이미지 클릭시 모달 창 오픈 */}
+      <Box>
+        <IconButton onClick={() => handleOpen(movieId)} sx={{color:'white'}} >
+          <PlayArrow fontSize='large' sx={{fontSize:'30px'}}></PlayArrow>트레이러 재생
+        </IconButton>
+      </Box>
+
+
+      {/* 비디오 모달 */}
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        {modalInfo ? (
-          <Box sx={style}>
+        {videoKey ? (
+          <Box sx={modalStyle}>
             <Box sx={{display:'flex', justifyContent:'space-between', color:'white', fontWeight:'bold',padding:'7px'}}>
-              {modalInfo.name}
+              {videoKey.name}
               <Button size='small' onClick={handleClose}>닫기</Button>
             </Box>
             <iframe
               width={1096}
               height={550}
-              src={`https://www.youtube.com/embed/${modalInfo.key}`}
+              src={`https://www.youtube.com/embed/${videoKey.key}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               style={{border:'none', borderRadius:'10px'}}

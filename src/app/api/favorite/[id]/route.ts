@@ -1,6 +1,6 @@
 import { connectToDatabase } from "@/app/lib/mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import Favorite from "@/app/models/favorite";
+import Favorite from "@/app/models/favorites";
 import { useForm } from "react-hook-form";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Params } from "next/dist/server/request/params";

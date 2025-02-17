@@ -24,6 +24,7 @@ const page = () => { //{ params }: { params: { type: string } }
       handleSubmit, // onChange 등의 이벤트 객체 생성
       watch, // register를 통해 받은 모든 값 확인
       setError, //서버 응답을 기반으로 오류 설정
+      clearErrors, //에러 초기화
       formState: { errors }, // errors: register의 에러 메세지 자동 출력
     } = useForm();
 
@@ -49,7 +50,7 @@ const page = () => { //{ params }: { params: { type: string } }
       const res = await  fetch('/api/login',
         {
           method: "POST",
-          headers:{"Content-Type": "application/josn"},
+          headers:{"Content-Type": "application/json"},
           credentials: 'include',
           body:JSON.stringify({ email: data.email, password: data.password })
         }, 
@@ -58,12 +59,19 @@ const page = () => { //{ params }: { params: { type: string } }
       const resdata = await res.json();
 
       if (!res.ok) {
-        // setError("email", { message: data.message || "로그인에 실패했습니다." });
-        // setError("password", { message: data.message || "비밀번호에 실패했습니다." });
+        setError("errorMessage", { message: resdata.message || "이메일과 비밀번호가 일치하지 않습니다." });
+
+        // 에러 메시지를 설정한 후 clearErrors를 호출
+        setTimeout(() => {
+          clearErrors("errorMessage");  // 일정 시간 후 clearErrors 호출
+        }, 1000); //1초
+        
         return;
+        
       }
-  
-      if (res.ok) {
+      
+
+      // if (res.ok) {
         // localStorage.setItem('authToken', resdata.results.token);
         // localStorage.setItem('userName', resdata.results.user.name);
   
@@ -72,10 +80,10 @@ const page = () => { //{ params }: { params: { type: string } }
         
         //await router.push('/');
         window.location.href = '/';
-      } else {
+      // } else {
         
-        alert(resdata.message);
-      }
+      //   alert(resdata.message);
+      // }
 
     //회원가입
     } else if (type === 'signup') {
@@ -83,7 +91,7 @@ const page = () => { //{ params }: { params: { type: string } }
       const res = await  fetch('/api/signup',
         {
           method: "POST",
-          headers:{"Content-Type": "application/josn"},
+          headers:{"Content-Type": "application/json"},
           body:JSON.stringify({ email: data.email, name: data.name, password: data.password })
         }, 
       )
@@ -151,6 +159,7 @@ const page = () => { //{ params }: { params: { type: string } }
                 //helperText={errors.password?.message as string}  //MUI UI꺼
               />
               {errors.password && <Alert severity="error" style={{ color: "red" }}>{errors.password.message as string}</Alert>}
+              {errors.errorMessage && <Alert severity="error" style={{ color: "red" }}>{errors.errorMessage.message as string}</Alert>}
               <Box sx={{display:'flex',justifyContent:'space-between'}}>
                 <Button type="submit" variant="contained" color="primary">
                   로그인

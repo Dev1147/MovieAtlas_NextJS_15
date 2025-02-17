@@ -1,6 +1,6 @@
 "use client";
 import React,{useState, useEffect} from 'react'
-import { API_URI } from '../../components/Config';
+import { API_URI } from '../../../components/Config';
 import { axisClasses, BarChart } from "@mui/x-charts";
 import { defaultizeValueFormatter } from '@mui/x-charts/internals';
 import { Accordion, AccordionSummary, AccordionDetails, Box, FormControl, FormControlLabel, FormLabel, List, ListItem, Radio, RadioGroup, Typography, FormGroup, Checkbox, Paper } from '@mui/material';
@@ -14,9 +14,9 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 function page() {
 
   const [genresInfo, setGenresInfo] =useState<{id:number, name:string}[]>([]);
-  const [genresMoviesInfo, setGenresMoviesInfo] =useState<any[]>([]);
+  const [moviesInfo, setMoviesInfo] =useState<any[]>([]);
   const [moviesIdInfo, setMoviesIdInfo] =useState<any[]>([]);
-  const [revenueAndBudgetInfo, setRevenueAndBudgetInfo] =useState<any[]>([]);
+  const [moviesDetailInfo, setMoviesDetailInfo] =useState<any[]>([]);
 
   
   //장르 가져오기
@@ -73,17 +73,17 @@ function page() {
       const data = await res.json();
 
       if(data.results.length > 0){
-        setGenresMoviesInfo(data.results);
+        setMoviesInfo(data.results);
       }
 
       //영화 상세 API에서 금액 가져오기
       const dataDetailedMovies   = await Promise.all(
-        genresMoviesInfo.map((movie) =>
+        moviesInfo.map((movie) =>
           fetch(`${API_URI}movie/${movie.id}?api_key=${API_KEY}&language=ko-KR`)
             .then(res => res.json())    
         )    
       )
-      setRevenueAndBudgetInfo(dataDetailedMovies);
+      setMoviesDetailInfo(dataDetailedMovies);
 
     }catch(error){
       console.error("영화 정보 가져오기 실패!");
@@ -115,11 +115,11 @@ function page() {
       //위 두개 합침
       fetchGenresMoviesAndDetails(endpointGenresMovies);
       
-    },[genresMoviesInfo]); //genresMoviesInfo  revenueAndBudgetInfo
+    },[moviesInfo]); //moviesInfo  revenueAndBudgetInfo
 
 
     //바 차트 영화 수익 데이터
-    const dataset = revenueAndBudgetInfo
+    const dataset = moviesDetailInfo
     .filter((movie) => movie.budget > 0)
     .map((movie) => ({
       title: movie.title, // 영화 제목
@@ -132,7 +132,7 @@ function page() {
     .sort((a, b) => b.profit - a.profit); // 이익이 높은 순서대로 정렬
   
     //파이 차트 수익률
-    const pieDataset = revenueAndBudgetInfo
+    const pieDataset = moviesDetailInfo
     .filter((movie) => movie.budget > 0)
     .map((movie,index) => ({
       id: index,
@@ -210,7 +210,7 @@ function page() {
 
   }
 
-  //데이터 그리드드
+  //데이터 그리드
   const columns = [
     { field: 'id', headerName: '번호', width: 50 },
     { field: 'title', headerName: '제목', width: 150, },
@@ -239,7 +239,7 @@ function page() {
     }).format(amount);
   };
   
-  const dataRows = revenueAndBudgetInfo.map((movie, index) => ({
+  const dataRows = moviesDetailInfo.map((movie, index) => ({
     id: index + 1, 
     title: movie.title, // 영화 제목
     budget: formatCurrency(movie.budget), // 예산
@@ -251,7 +251,7 @@ function page() {
   return (
     <>
       <Box  sx={{display:'flex', justifyContent:'center',margin:'20px'}}> {/*display:'flex', alignItems:'center', justifyContent:'center', margin:'20px'*/}
-        <Paper  elevation={3} sx={{padding:'5px', width:'250px',}} >
+        <Paper  elevation={3} sx={{padding:'5px', width:'250px', }} >
           {/* 정렬 */}
           <Box sx={{borderBottom: '1px solid #ccc',padding:'5px', }}>
             <FormControl>
@@ -377,6 +377,7 @@ function page() {
               />
             </Box>
           </Paper>
+          
         </Box> 
       </Box>
 
