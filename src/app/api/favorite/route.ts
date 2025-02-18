@@ -1,13 +1,12 @@
 import { connectToDatabase } from "@/app/lib/mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import Favorite from "@/app/models/favorites";
-import { useForm } from "react-hook-form";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 //내가 좋아요한 목록가져오기
-export async function GET(req: NextRequest, res:NextResponse,) { 
+export async function GET(req: NextRequest) { 
   //const {movieId, userForm}:{movieId:number, userForm:string} = await req.json();
   //const { variables } = await req.json(); // `variables` 객체를 먼저 받음
   //console.log("받은 데이터:", variables);
@@ -45,13 +44,14 @@ export async function GET(req: NextRequest, res:NextResponse,) {
       return NextResponse.json({success:true, message:'좋아요 조회 성공!', results: favorited },{status:200});
 
   }catch(error){
+    console.error(error);
     return NextResponse.json({success:false},{status:400});
   }
 
 }
 
 //좋아요 목록을 삭제하기
-export async function DELETE(req:NextRequest, res:NextResponse) {
+export async function DELETE(req:NextRequest) {
 
   const {movieId, userForm}:{movieId:string, userForm:string} = await req.json();
 
@@ -67,6 +67,7 @@ export async function DELETE(req:NextRequest, res:NextResponse) {
 
     return NextResponse.json({success:true, message:'좋아요 삭제 성공!'},{status:200});
   }catch(error){
+    console.error(error); 
     return NextResponse.json({success:false},{status:400});
   }
 }

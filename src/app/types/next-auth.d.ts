@@ -1,5 +1,3 @@
-
-import NextAuth from "next-auth";
 import { IUser } from "@/app/models/users";  // 유저 모델을 가져옵니다.
 
 declare module "next-auth" {
@@ -8,6 +6,10 @@ declare module "next-auth" {
   }
 
   interface Session {
-    user: User;
+    user: {
+      sessiontoken?: string;
+    }& DefaultSession["user"];
   }
+
+  
 }

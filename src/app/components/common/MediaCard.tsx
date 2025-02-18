@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { API_URI,IMAGE_BASE_URL } from '../../components/Config';
-import { Box, Button, Link, Paper, Stack, Typography } from '@mui/material';
+import React from 'react';
+import { IMAGE_BASE_URL } from '../../components/Config';
+import { Box, Paper, Typography } from '@mui/material';
+import Image from 'next/image';
 
 interface MediaCardProps {
   mediaCardInfo: { profile_path: string; name: string; character: string }[]; // 배열로 정의
@@ -15,7 +16,7 @@ function MediaCard({mediaCardInfo, shownCount}:MediaCardProps) {
         {Array.isArray(mediaCardInfo) && mediaCardInfo.slice(0, shownCount).map((cast, index) => (  
           <Paper elevation={3} key={index} sx={{border:'1px solid #ccc', borderRadius:'15px', width:'175px', height:'320px', }}>
             {/* <Box > */}
-              <img src={`${IMAGE_BASE_URL}/w500${cast.profile_path}` } width='173px'height='230px' style={{borderTopLeftRadius: "15px",borderTopRightRadius: "15px"}}/>   
+              <Image  src={`${IMAGE_BASE_URL}/w500${cast.profile_path}` } alt='프로필 사진' width={173} height={230} style={{borderTopLeftRadius: "15px",borderTopRightRadius: "15px"}}/>   
             {/* </Box> */}
             <Box sx={{}}>
               <Typography sx={{fontWeight:'bold'}} >{cast.name}</Typography>

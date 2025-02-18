@@ -1,23 +1,21 @@
 "use client";
 import React,{useState, useEffect} from 'react'
 import { API_URI } from '../../../components/Config';
-import { axisClasses, BarChart } from "@mui/x-charts";
-import { defaultizeValueFormatter } from '@mui/x-charts/internals';
-import { Accordion, AccordionSummary, AccordionDetails, Box, FormControl, FormControlLabel, FormLabel, List, ListItem, Radio, RadioGroup, Typography, FormGroup, Checkbox, Paper } from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { PieChart } from '@mui/x-charts/PieChart';
-import { DataGrid, GridColDef  } from '@mui/x-data-grid';
+import { Box, FormControl, FormControlLabel, FormLabel,Radio, RadioGroup, FormGroup, Checkbox, Paper } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import CustomPieChart from '@/app/components/charts/CustomPieChart';
+import CustomBarChart from '@/app/components/charts/CustomBarChart';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
-function page() {
+function Page() {
 
   const [genresInfo, setGenresInfo] =useState<{id:number, name:string}[]>([]);
-  const [moviesInfo, setMoviesInfo] =useState<any[]>([]);
-  const [moviesIdInfo, setMoviesIdInfo] =useState<any[]>([]);
-  const [moviesDetailInfo, setMoviesDetailInfo] =useState<any[]>([]);
-
+  const [moviesIds, setMoviesIds] =useState<number[]>([]);
+  const [moviesDetailInfo, setMoviesDetailInfo] =useState<{title:string, budget:number, revenue: number}[]>([]);
+  const [change, setChange] = useState<string>('popularity');
+  const [changeDescAsc, setChangeDescAsc] = useState<string>('desc');
+  const [changeGenres, setChangeGenres] = useState<number[]>([]);
   
   //장르 가져오기
   const fetchGenres = async(endpoint: string) => {
@@ -28,159 +26,88 @@ function page() {
         setGenresInfo(data.genres);   
 
     }catch(error){
-      console.error("영화 장르 가져오기 실패!");
+      console.error("영화 장르 가져오기 실패!",error);
     }
   }
 
-  //영화 목록가져오기 (인기,최신순)
-  // const fetchGenresMovies = async(endpoint: string) => {
-  //   try{
+ const fetchGetMoviesIds = async(endpoint: string) => {
+    try{
+      const res = await fetch(endpoint);
+      const data = await res.json();  
+      const movieIds = data.results.map((movie:{id:number}) => movie.id);
+      setMoviesIds(movieIds);   
+
+    }catch(error){
+      console.error("영화ID 가져오기 실패!",error);
+    }
+}
+
+
+
+  // const fetchGenresMoviesAndDetails = async (endpoint: string) => {
+  //   try {
   //     const res = await fetch(endpoint);
   //     const data = await res.json();
 
   //     if(data.results.length > 0){
-  //       //console.log(data.results);
-  //       setGenresMoviesInfo(data.results);
-  //      // setMoviesIdInfo(data.results)
+  //       const movieIds = data.results.map((movie:{id:number}) => movie.id);
+  //       //console.log(movieIds);
+  //       setMoviesIds(movieIds);
   //     }
 
-  //   }catch(error){
-  //     console.error("영화 장르 가져오기 실패!");
-  //   }
-  // }
- 
-  //영화 상세 API에서 금액 가져오기
-  //const fetchRevenueAndBuget = async() => {
-  //   try{
-  //     //영화 목록가져오기 (인기,최신순)
-  //     const data  = await Promise.all(
-  //       genresMoviesInfo.map((movie) =>
-  //         fetch(`${API_URI}movie/${movie.id}?api_key=${API_KEY}&language=ko-KR`)
-  //           .then(res => res.json())    
-  //       )    
-  //     )
-  //     setRevenueAndBudgetInfo(data);
+
+
+  //     //영화 상세 API에서 금액 가져오기
+  //     // const dataDetailedMovies   = await Promise.all(
+  //     //   moviesIds //.filter((movie) => movie.budget > 0 && movie.revenue > 0)
+  //     //   .map((id) =>
+  //     //     fetch(`${API_URI}movie/${id}?api_key=${API_KEY}&language=ko-KR`)
+  //     //       .then(res => res.json())    
+  //     //   )    
+  //     // );
+  //     //console.log("length:", dataDetailedMovies.length); // 배열 확인
+
+  //     // setMoviesDetailInfo(dataDetailedMovies);
 
   //   }catch(error){
-  //     console.error("영화 수익 가져오기 실패!");
+  //     console.error("영화 정보 가져오기 실패!",error);
   //   }
   // }
 
-  //위 2개 합쳐서 한번에
-  const fetchGenresMoviesAndDetails = async (endpoint: string) => {
-    try {
-      const res = await fetch(endpoint);
-      const data = await res.json();
 
-      if(data.results.length > 0){
-        setMoviesInfo(data.results);
-      }
+  useEffect(()=>{
 
-      //영화 상세 API에서 금액 가져오기
-      const dataDetailedMovies   = await Promise.all(
-        moviesInfo.map((movie) =>
-          fetch(`${API_URI}movie/${movie.id}?api_key=${API_KEY}&language=ko-KR`)
-            .then(res => res.json())    
-        )    
-      )
-      setMoviesDetailInfo(dataDetailedMovies);
+    const endpointGenres: string = `${API_URI}genre/movie/list?api_key=${API_KEY}&language=ko-KR`; //장르 ID 정보
+    const endpointMovies: string = `${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&with_genres=${changeGenres}&sort_by=${change}.${changeDescAsc}`//&with_genres=${GENRE_ID}&sort_by=popularity.desc&page=1` //장르별 영화들
+    // let endpointMoviesDetail: string = `${API_URI}movie/${id}?api_key=${API_KEY}&language=ko-KR`
 
-    }catch(error){
-      console.error("영화 정보 가져오기 실패!");
-    }
-  }
+    fetchGenres(endpointGenres);
+    fetchGetMoviesIds(endpointMovies);
 
-
-    useEffect(()=>{
-
-      let endpointGenres: string = `${API_URI}genre/movie/list?api_key=${API_KEY}&language=ko-KR`; //장르 ID 정보
-      let endpointGenresMovies: string = `${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&with_genres=${changeGenres}&sort_by=${change}.${changeDescAsc}`//&with_genres=${GENRE_ID}&sort_by=popularity.desc&page=1` //장르별 영화들
-      let endpointGenresRevenue: string = `${API_URI}movie/939243?api_key=${API_KEY}`
-      //let endPosintImages: string = `${API_URI}movie/popular?api_key=${API_KEY}&language=ko-KR&page=1`; //영화 최신,인기 1페이지만
-  
-      // let popularPoint: string = `${API_URI}movie/popular?api_key=${API_KEY}`  //인기
-      // let nowPlayingPoint: string = `${API_URI}movie/now_playing?api_key=${API_KEY}`  //스트리밍(현재 상영중)
-      // let tvPopularPoint: string = `${API_URI}tv/popular?api_key=${API_KEY}` //TV인기
-      // let rentPoint: string = `${API_URI}movie/popular?api_key=${API_KEY}&watch_region=KR&with_watch_monetization_types=rent` //대여
-      // let moviePopularPoint: string = `${API_URI}movie/popular?api_key=${API_KEY}&watch_region=KR&with_watch_monetization_types=rent` //극장 상영중
-     
-     
-      //let movie = `${API_URI}movie/${movie_id}?api_key=${API_KEY}`
-      //let videoPoint: string = `${API_URI}movie/${영화ID값}/videos?api_key=${API_KEY}` // 영상 정보 추출
-  
-      fetchGenres(endpointGenres);
-
-      //fetchGenresMovies(endpointGenresMovies);
-      //fetchRevenueAndBuget();
-      //위 두개 합침
-      fetchGenresMoviesAndDetails(endpointGenresMovies);
-      
-    },[moviesInfo]); //moviesInfo  revenueAndBudgetInfo
-
-
-    //바 차트 영화 수익 데이터
-    const dataset = moviesDetailInfo
-    .filter((movie) => movie.budget > 0)
-    .map((movie) => ({
-      title: movie.title, // 영화 제목
-      budget: movie.budget, // 예산
-      revenue: movie.revenue, // 수익
-      profit: movie.revenue - movie.budget, // 이익 (수익 - 예산)
-      //profitMargin: movie.budget > 0 ? ((movie.revenue - movie.budget) / movie.budget * 100).toFixed(2) : 0 // % 계산
-    }))
-   // .filter(Boolean)
-    .sort((a, b) => b.profit - a.profit); // 이익이 높은 순서대로 정렬
-  
-    //파이 차트 수익률
-    const pieDataset = moviesDetailInfo
-    .filter((movie) => movie.budget > 0)
-    .map((movie,index) => ({
-      id: index,
-      //title: movie.title, // 영화 제목
-      label: movie.title,
-      value: Math.round(((movie.revenue - movie.budget) / movie.budget) * 100 * 100) / 100, // 수익률 계산
-    }))
-   // .filter(Boolean)
-    .sort((a, b) => b.value - a.value); // 높은 수익률 순으로 정렬
-
-    //영화제목
-    const xAxisData = dataset.map((movie) => movie.title);
-
-    // 숫자를 K, M, B 단위로 변환하는 함수
-    const valueFormatter = (value:any) => {
-      if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1)}B`; // 10억 이상 → B
-      if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`; // 100만 이상 → M
-      if (value >= 1_000) return `${(value / 1_000).toFixed(1)}K`; // 1000 이상 → K
-
-      if (isNaN(value)) return '0'; 
-
-      if (value <= 1_000_000_000) return `-${(value / 1_000_000_000).toFixed(1)}B`; // 10억 이하 → B
-
-      return value; // 그대로 표시
-    };
+    const fetchGetMoviesDetail = async() => {
+      try{
     
-    //스타일 미사용
-    const chartSetting = {
-      // yAxis: [
-      //   {
-      //     label: '달러 (USD)'
-      //   },
-      // ],
-      width: 500,
-      height: 300,
-      sx: {
-        [`.${axisClasses.left} .${axisClasses.label}`]: {
-          transform: 'translate(-20px, 0)',
-        },
-      },
-    };
+        const dataDetailedMovies   = await Promise.all(
+          moviesIds //.filter((movie) => movie.budget > 0 && movie.revenue > 0)
+          .map((id) =>
+            fetch(`${API_URI}movie/${id}?api_key=${API_KEY}&language=ko-KR`)
+              .then(res => res.json())    
+          )    
+        );
+    
+        setMoviesDetailInfo(dataDetailedMovies);   
+    
+      }catch(error){
+        console.error("영화 정보 가져오기 실패!",error);
+      }
+    }
+
+    fetchGetMoviesDetail();
+    
+  },[moviesIds, change, changeDescAsc, changeGenres]);
 
 
-  const [change, setChange] = useState<string>('popularity');
-  const [changeDescAsc, setChangeDescAsc] = useState<string>('desc');
-  const [changeGenres, setChangeGenres] = useState<number[]>([]);
-
-  //인기/최순 핸들러러
+  //인기/최순 핸들러
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>,) => {
     setChange(event.target.value)
   }
@@ -239,14 +166,17 @@ function page() {
     }).format(amount);
   };
   
-  const dataRows = moviesDetailInfo.map((movie, index) => ({
-    id: index + 1, 
-    title: movie.title, // 영화 제목
-    budget: formatCurrency(movie.budget), // 예산
-    revenue: formatCurrency(movie.revenue), // 수익
-    profit: movie.revenue - movie.budget, //이익
-    value: Math.round(((movie.revenue - movie.budget) / movie.budget) * 100 * 100) / 100, // 수익률 계산
-  }))//.sort((a, b) => b.profit - a.profit); 
+  const dataRows = moviesDetailInfo
+    .filter((movie) => movie.budget > 0 && movie.revenue > 0)//api의 0인 수익, 예산 제외 
+    .map((movie, index) => ({
+      id: index + 1, 
+      title: movie.title, // 영화 제목
+      budget: formatCurrency(movie.budget), // 예산
+      revenue: formatCurrency(movie.revenue), // 수익
+      profit: movie.revenue - movie.budget, //이익
+      value: Math.round(((movie.revenue - movie.budget) / movie.budget) * 100 * 100) / 100, // 수익률 계산
+    }))
+    //.sort((a, b) => b.value - a.value); // 높은 수익률 순으로 정렬
 
   return (
     <>
@@ -311,51 +241,11 @@ function page() {
 
 
         <Box sx={{paddingLeft:'15px'}}>
-          <Paper elevation={3} sx={{marginBottom:'15px'}}>
-            {/* 바 차트 */}
-            <BarChart 
-              dataset={dataset}
-              xAxis={[{ scaleType: 'band', data: xAxisData }]} 
-              yAxis={[{  label: '달러 (USD)',valueFormatter, }]} 
-              series={[
-                { dataKey: 'budget', stack: 'A',label: '예산' }, // 예산 시리즈    stack: 'A'
-                { dataKey: 'revenue', stack: 'A', label: '수익' }, // 수익 시리즈    stack: 'A'시 하나로 됨
-                { dataKey: 'profit', label: '이익' }, //이익
-                //{ dataKey:'profitMargin', label:'수익률'}
-              ]}
-              //{...chartSetting}
-              
-              //라벨 위치
-              sx={{
-                [`.${axisClasses.left} .${axisClasses.label}`]: {
-                transform: 'translate(-30px, 0)',
-                },
-                padding:'30px'
-              }}
-              //그래프 크기 및 바 모양 조절
-              borderRadius={9}
-              width={1200}
-              height={500}
-            />
-          </Paper>
+          {/* 바 차트 */}
+          <CustomBarChart dataInfo={moviesDetailInfo}/>
 
-          <Paper elevation={3} sx={{marginBottom:'15px'}}>
-            {/*파이 차트 */}
-            <PieChart
-              series={[
-                {
-                  data: pieDataset,
-                  highlightScope: { fade: 'global', highlight: 'item' },
-                  faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                  valueFormatter: (data) => `${data.value}%`,
-                },
-              ]}
-              sx={{padding:0}}
-              width={1200}
-              height={300}
-              
-            />
-          </Paper>
+          {/*파이 차트 */}
+          <CustomPieChart dataInfo={moviesDetailInfo}/>
 
           <Paper elevation={3} sx={{marginBottom:'0px'}}>
             {/* 데이타 그리드 */}
@@ -385,4 +275,4 @@ function page() {
   )
 }
 
-export default page;
+export default Page;

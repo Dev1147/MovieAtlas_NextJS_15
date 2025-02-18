@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
-import Image from "next/image";
-import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
+import {API_URI} from '../Config';
+
+import { Box, Tabs, Tab, Typography } from '@mui/material';
 import TrendRowListPage from './TrendRowListPage';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
@@ -29,13 +29,13 @@ function PosterSection() {
       }
 
     }catch(error){
-      console.error("영화 트렌드 가져오기 실패!");
+      console.error("영화 트렌드 가져오기 실패!", error);
     }
   }
 
   useEffect(()=>{
-    let endPosintImages: string = `${API_URI}movie/${trendCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //영화 최신,인기 1페이지만
-    let endPosintTrend: string = `${API_URI}trending/movie/${trendCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //트렌드 영화
+    //const endPosintImages: string = `${API_URI}movie/${trendCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //영화 최신,인기 1페이지만
+    const endPosintTrend: string = `${API_URI}trending/movie/${trendCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //트렌드 영화
    // https://api.themoviedb.org/3/trending/movie/week?api_key=YOUR_API_KEY
     //let endPosintTv: string = `${API_URI}/trending/tv/${trendCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //트렌드 TV
 

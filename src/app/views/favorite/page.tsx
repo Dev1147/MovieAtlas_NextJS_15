@@ -1,5 +1,6 @@
 "use client";
 import { IMAGE_BASE_URL } from '@/app/components/Config'
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 type Favorite = {
@@ -9,7 +10,7 @@ type Favorite = {
   userForm:string,
 }
 
-  function page() {
+  function Page() {
 
   const[Favorites, setFavorites] = useState<Favorite[]>([]);
 
@@ -25,7 +26,7 @@ type Favorite = {
       );
       const data = await res.json(); 
       if(data.success){
-        console.log(data.results);
+        //console.log(data.results);
         setFavorites(data.results); 
     }
     };
@@ -46,8 +47,9 @@ type Favorite = {
           body:JSON.stringify({ movieId,userForm })
         }, 
       );
-      const data = await res.json(); console.log(data);
+      const data = await res.json();
       if(data.success){
+        setFavorites((prev) => prev.filter((favorites) => favorites.movieId !== movieId)); //상태 업데이트
         alert("삭제 완료");
       }
 
@@ -76,9 +78,22 @@ type Favorite = {
         {Array.isArray(Favorites) && Favorites.map((favorite, index)=>(
           <tr key={index}>
             <td>{index + 1}</td>
-            <td><img src={`${IMAGE_BASE_URL}/w500${favorite.moviePoster}` } alt={`Poster for ${favorite.movieTitle}`} width='100px'height='200px' style={{borderRadius: "15px"}}/></td>
-            <td>{favorite.movieTitle}</td>
-            <td><button onClick={()=> onClickDelete(favorite.movieId,favorite.userForm)}>Remove</button></td>
+            <td>
+            {favorite.moviePoster ? (
+              <Image
+                src={`${IMAGE_BASE_URL}/w500${favorite.moviePoster}`}
+                alt={`Poster for ${favorite.movieTitle}`}
+                width={100}
+                height={200}
+                style={{ borderRadius: '15px' }}
+              />
+            ) : (
+              <span>포스터 없음</span>
+            )
+            }
+            </td>
+            <td>{favorite.movieTitle || '제목없음'}</td>
+            <td><button onClick={()=> onClickDelete(favorite.movieId, favorite.userForm)}>Remove</button></td>
           </tr>
         ))}
 
@@ -89,4 +104,4 @@ type Favorite = {
   )
 }
 
-export default page
+export default Page

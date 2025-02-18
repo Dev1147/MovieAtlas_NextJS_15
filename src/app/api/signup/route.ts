@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import User, {IUser} from "@/app/models/users";
+import User from "@/app/models/users";
 import { connectToDatabase } from "@/app/lib/mongoose";
 
 
-export async function POST(req:NextRequest, res:NextResponse) {
+export async function POST(req:NextRequest) {
 
   const {email, name, password}:{email: string, name: string, password: string} = await req.json();
 
@@ -30,6 +30,7 @@ export async function POST(req:NextRequest, res:NextResponse) {
     return NextResponse.json({success:true, message:"회원가입 성공"},{status:200})
 
   }catch(error){
+    console.error(error);
     return NextResponse.json({success:false, message:"회원가입중 실패했습니다."},{status:400})
   } 
 };

@@ -7,7 +7,7 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 function MainImage() {
   const [mainImage, setMainImage] = useState<{poster_path:string}[]>([]);
   useEffect(() => {
-    let popularPoint: string = `${API_URI}movie/popular?api_key=${API_KEY}&language=ko-KR&page=1`
+    const popularPoint: string = `${API_URI}movie/popular?api_key=${API_KEY}&language=ko-KR&page=1`
 
     fetch(popularPoint)
       .then(res => res.json())

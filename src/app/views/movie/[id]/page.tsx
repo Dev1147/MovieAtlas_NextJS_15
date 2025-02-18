@@ -2,19 +2,20 @@
 import React, { useEffect, useState } from 'react'
 import { API_URI,IMAGE_BASE_URL } from '../../../components/Config';
 import { useParams } from 'next/navigation';
-import { Box, Button, Chip, Grid2, IconButton, Link, Paper, Rating, Stack, Tab, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid2, Rating, Tab, Typography } from '@mui/material';
 import MediaCard from '@/app/components/common/MediaCard';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import LargeAverage from '../../../components/common/LargeAverage';
-import { BookmarkAdd, BookmarkBorder, Favorite, FavoriteBorder, PlayArrow } from '@mui/icons-material';
 import LikeButton from '@/app/components/common/LikeButton';
 import VideoModal from '@/app/components/common/VideoModal';
+import Image from 'next/image';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
 export type MoviesInfo = {
   id:number, 
   poster_path:string, 
+  name:string,
   title:string, 
   release_date:string, 
   vote_average:number,
@@ -23,29 +24,30 @@ export type MoviesInfo = {
   origin_country:string,
   genres:string,
   tagline:string,
-  overview:string,
+  overview:string, 
+  profile_path: string,
+  character: string
 }
 
-function page() {
+function Page() {
   //id값 가져오기
   const params = useParams();
   const {id} = params; // 객체로 {} 감쌈 alert(id)
 
   const [movie, setMovie] = useState<MoviesInfo | null>(null);
-  const [casts, setCasts] = useState<any>([]);
-  const [crews, setCrews] = useState<any>([]);
-  const [actorToggle, setActorToggle] = useState(false);
-  const [video, setVideo] = useState<any>([]);
+  const [casts, setCasts] = useState<{ profile_path: string; name: string; character: string }[]>([]);
+  const [crews, setCrews] = useState<{ profile_path: string; name: string; character: string }[]>([]);
+ // const [video, setVideo] = useState<string[]>([]);
   const [visibleCount, setvisibleCount] = useState(7);
   const [tabInfo, setTabInfo] = useState<string>('casts');
   
   useEffect(()=>{
     //영화 출연진
-    let endpointCrew = `${API_URI}movie/${id}/credits?api_key=${API_KEY}`;
+    const endpointCrew = `${API_URI}movie/${id}/credits?api_key=${API_KEY}`;
     //영화 상세 정보
-    let endpointDetailInfo = `${API_URI}movie/${id}?api_key=${API_KEY}`;
+    const endpointDetailInfo = `${API_URI}movie/${id}?api_key=${API_KEY}`;
     //영화 예고편
-    let endpointVideo = `${API_URI}movie/${id}/videos?api_key=${API_KEY}`;
+    //const endpointVideo = `${API_URI}movie/${id}/videos?api_key=${API_KEY}`;
 
     const fetchDetailInfo = async () => {
       const res = await fetch(endpointDetailInfo);
@@ -57,26 +59,26 @@ function page() {
     const fetchCrewInfo = async () => {
       const res = await fetch(endpointCrew);
       const data = await res.json();
-      //console.log(data)
+      console.log(data)
       setCasts(data.cast);
       setCrews(data.crew);
     }
 
-    const fetchVideoInfo = async () => {
-      const res = await fetch(endpointVideo);
-      const data = await res.json();
-      //console.log(data)
-      setVideo(data.results[0]);
-    }
+    // const fetchVideoInfo = async () => {
+    //   const res = await fetch(endpointVideo);
+    //   const data = await res.json();
+    //   //console.log(data)
+    //   setVideo(data.results[0]);
+    // }
 
     fetchDetailInfo();
     fetchCrewInfo();
-    fetchVideoInfo();
+    //fetchVideoInfo();
 
-      const cookies = document.cookie.split('; ');
-      const userRole = cookies.find(cookie => cookie.startsWith('userrole='));
-      const userCookie = cookies.find(cookie => cookie.startsWith('username='));
-  },[])
+      //const cookies = document.cookie.split('; ');
+      // const userRole = cookies.find(cookie => cookie.startsWith('userrole='));
+      // const userCookie = cookies.find(cookie => cookie.startsWith('username='));
+  },[id])
 
   if (!movie) return <p>Loading...</p>; 
 
@@ -133,7 +135,7 @@ function page() {
         }}>
         {/* 포스터 */}
         <Grid2 sx={{position: 'relative',top:50, left:100}}>
-          <img src={`${IMAGE_BASE_URL}w1280${movie.poster_path}`} style={{width:'300px', height:'400px'}}/>
+          <Image src={`${IMAGE_BASE_URL}w1280${movie.poster_path}`} alt={`${movie.name}`} width={300} height={400} style={{width:'300px', height:'400px'}}/>
         </Grid2>
 
         {/* 포스터 영화 정보  */}
@@ -214,4 +216,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

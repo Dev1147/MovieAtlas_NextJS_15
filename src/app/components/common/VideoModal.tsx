@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
-import { Box, Typography, Stack, Button, IconButton, Modal } from "@mui/material";
-import { Home, Search, Favorite, FavoriteBorder, BookmarkBorder, Bookmark, PlayArrow, Close, Height } from '@mui/icons-material';
+import {API_URI,} from '../Config';
+import { Box, Button, IconButton, Modal } from "@mui/material";
+import { PlayArrow } from '@mui/icons-material';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 

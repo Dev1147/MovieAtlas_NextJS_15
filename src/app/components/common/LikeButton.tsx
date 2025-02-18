@@ -1,7 +1,8 @@
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { jwtDecode } from "jwt-decode";
-import { BookmarkAdd, BookmarkBorder, Favorite, FavoriteBorder, PlayArrow } from '@mui/icons-material';
+import {  Favorite, FavoriteBorder, } from '@mui/icons-material';
+import { useSession } from 'next-auth/react';
 
 export type MoviesInfo = {
   id:number, 
@@ -20,7 +21,7 @@ export type MoviesInfo = {
 function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle:string,moviePoster:string}) {
   const [FavoriteNumber, setFavoriteNumber] = useState(0);  
   const [Favorited, setFavorited] = useState(false); 
-
+  const { data: session } = useSession();
   const variables = {
     movieId: movieId,
     movieTitle: movieTitle,
@@ -72,13 +73,16 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
     }
 
     fetchFavoriteInfo();
-  },[]);
+  },[movieId]);
 
   const onClickFavorited = async() => {
-    const token = getUserFromToken();
+    //OAuth 토큰 추가
+    const tokenOAuth = session?.user.sessiontoken  ?? null; //console.log(tokenOAuth)
+    const token = tokenOAuth ?? getUserFromToken();
 
     if(!token){
       alert("로그인이 필요합니다");
+      return;
     }
 
     if(Favorited){ //true일경우 좋아요 취소

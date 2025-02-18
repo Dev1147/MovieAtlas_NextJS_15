@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import cookie from 'cookie';
+import { NextResponse } from 'next/server';
+import { serialize } from 'cookie';
 
-export async function POST(req:NextRequest,) {
+export async function POST() {
   // 쿠키 삭제를 위한 옵션 설정
   const cookieOptions = {
     httpOnly: false,
@@ -16,15 +16,16 @@ export async function POST(req:NextRequest,) {
   //   cookie.serialize('user-role', '', cookieOptions),
   //   cookie.serialize('username', '', cookieOptions),
   // ];
-  const tokenCookie = cookie.serialize('token', '', cookieOptions);
-  const userRoleCookie = cookie.serialize('userrole', '', cookieOptions);
-  const usernameCookie = cookie.serialize('username', '', cookieOptions);
+  const tokenCookie = serialize('token', '', cookieOptions);
+  const userRoleCookie = serialize('userrole', '', cookieOptions);
+  const usernameCookie = serialize('username', '', cookieOptions);
 
+  const combinedCookies = `${tokenCookie}, ${userRoleCookie}, ${usernameCookie}`;
   // Set-Cookie 헤더를 사용하여 쿠키 삭제 처리
   return NextResponse.json({ success: true, message: '로그아웃 성공' }, {
     status: 200,
     headers: {
-      'Set-Cookie': `${tokenCookie},${userRoleCookie},${usernameCookie}}`  // 여러 쿠키를 하나의 Set-Cookie 헤더로 병합
+      'Set-Cookie': combinedCookies  // 여러 쿠키를 하나의 Set-Cookie 헤더로 병합
     },
   });
 }

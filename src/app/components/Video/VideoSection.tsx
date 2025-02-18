@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
-import Image from "next/image";
-import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
+import {API_URI} from '../Config';
+
+import {  Box, Tabs, Tab, Typography } from '@mui/material';
 import VideoRowListPage from './VideoRowListPage';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
@@ -28,12 +28,12 @@ function VideoSection() {
         }
   
       }catch(error){
-        console.error("영화 대표 비디오오 가져오기 실패!");
+        console.error("영화 대표 비디오오 가져오기 실패!",error);
       }
     }
 
     useEffect(()=>{
-      let endPosintVedeos: string = `${API_URI}movie/${videoCategory}?api_key=${API_KEY}&language=ko-KR&page=3`; //영화 최신,인기 1페이지만
+      const endPosintVedeos: string = `${API_URI}movie/${videoCategory}?api_key=${API_KEY}&language=ko-KR&page=3`; //영화 최신,인기 1페이지만
       fetchVideosList(endPosintVedeos);
     },[videoCategory]);
 

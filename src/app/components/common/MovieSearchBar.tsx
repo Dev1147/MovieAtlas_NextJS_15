@@ -1,9 +1,7 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { API_URI } from '../../components/Config';
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
-function MovieSearchBar({setSearch}:{setSearch:React.Dispatch<React.SetStateAction<any>>}) { //상위로 보낼려면  상태업데이트 함수 지정
+function MovieSearchBar({setSearch}:{setSearch:React.Dispatch<React.SetStateAction<string>>}) { //상위로 보낼려면  상태업데이트 함수 지정
 
   const [searchlocal, setSearchLocal] = useState('');
 

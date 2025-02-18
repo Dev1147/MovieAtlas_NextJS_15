@@ -1,30 +1,13 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PosterSection from '../components/Posters/PosterSection';
 import VideoSection from '../components/Video/VideoSection';
 import TrendSection from '../components/Trend/TrendSection';
-import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import MainImage from '../components/common/MainImage';
-import Footer from '../components/common/Footer';
 
 
-type moviesData =  {
-  adult: boolean;
-  backdrop_path: string;
-  id: number;
-  original_language: "en"
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video:boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-function page() {
+function Page() {
 
 
   useEffect(()=>{
@@ -53,4 +36,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

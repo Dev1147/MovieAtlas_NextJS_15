@@ -1,4 +1,4 @@
-import mongoose, {Schema, HydratedDocument, Model } from "mongoose";
+import mongoose, {Schema, Model } from "mongoose";
 
 
 //인터페이스 정의

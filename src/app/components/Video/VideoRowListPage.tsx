@@ -1,8 +1,9 @@
 import React, { useEffect,useState } from 'react'
 import {API_URI, IMAGE_BASE_URL} from '../Config';
 import style from '../style/style.module.css';
-import { Box, Typography, Stack, Button, IconButton, Modal } from "@mui/material";
-import { Home, Search, Favorite, FavoriteBorder, BookmarkBorder, Bookmark, PlayArrow, Close, Height } from '@mui/icons-material';
+import { Box, Button, IconButton, Modal } from "@mui/material";
+import { PlayArrow } from '@mui/icons-material';
+import Image from 'next/image';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
@@ -100,9 +101,9 @@ function MainVideoRowListPage({videoInfo }:{videoInfo:{id:number, backdrop_path:
           </div>
         ))} */}
         {/* 배경화면 이미지 클릭시 모달 창 오픈 */}
-        {Array.isArray(videoInfo) && videoInfo.slice(7, 17).map((movid, index) => (
+        {Array.isArray(videoInfo) && videoInfo.slice(0, 10).map((movid, index) => (
           <Box key={index} sx={{position:'relative'}} className={style.imageList}>
-            <img src={`${IMAGE_BASE_URL}/w500${movid.backdrop_path}` } width='350px'height='200px' style={{borderRadius: "15px"}}/>
+            <Image src={`${IMAGE_BASE_URL}/w500${movid.backdrop_path}` } alt='이미지 없음' width={350} height={200} style={{borderRadius: "15px"}}/>
             <IconButton onClick={() => handleOpen(movid.id)} sx={{ position:'absolute', left:120, top:50 ,color:'white'}} >
              <PlayArrow fontSize='large' sx={{fontSize:'100px'}}></PlayArrow>
             </IconButton>

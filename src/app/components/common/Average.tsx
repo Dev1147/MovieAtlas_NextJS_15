@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography, CircularProgress } from '@mui/material';
+import {  Box, Typography, CircularProgress } from '@mui/material';
 
 function Average({voteAverage}:{voteAverage:number}) {
   return (

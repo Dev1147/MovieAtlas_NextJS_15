@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
-import Image from "next/image";
-import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography } from '@mui/material';
+import {API_URI} from '../Config';
+
+import {  Box, Tabs, Tab, Typography } from '@mui/material';
 import PosterRowListPage from './PosterRowListPage';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
@@ -29,12 +29,12 @@ function PosterSection() {
       }
 
     }catch(error){
-      console.error("영화 대표 이미지 가져오기 실패!");
+      console.error("영화 대표 이미지 가져오기 실패!",error);
     }
   }
 
   useEffect(()=>{
-    let endPosintImages: string = `${API_URI}movie/${imageCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //영화 최신,인기 1페이지만
+    const endPosintImages: string = `${API_URI}movie/${imageCategory}?api_key=${API_KEY}&language=ko-KR&page=1`; //영화 최신,인기 1페이지만
 
     // let popularPoint: string = `${API_URI}movie/popular?api_key=${API_KEY}`  //인기
     // let nowPlayingPoint: string = `${API_URI}movie/now_playing?api_key=${API_KEY}`  //스트리밍(현재 상영중)

@@ -1,13 +1,12 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
-import Image from "next/image";
-import { Grid, Grid2, Stack, Box, Paper, Tabs, Tab, ImageList, ImageListItem, Typography, CircularProgress } from '@mui/material';
+import React from 'react'
+import { IMAGE_BASE_URL} from '../Config';
+
+import { Box, Paper} from '@mui/material';
 import style from '../style/style.module.css';
 import Average from '../common/Average';
 import Link from 'next/link';
-
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
+import Image from 'next/image';
 
 function PosterRowListPage({movieInfo}:{movieInfo:{id:number, poster_path:string, title:string, release_date:string, vote_average:number}[]}) {
 
@@ -19,7 +18,7 @@ function PosterRowListPage({movieInfo}:{movieInfo:{id:number, poster_path:string
           <Paper elevation={3} key={index} className={style.imageList} sx={{border:'1px solid #ccc', borderRadius:'15px', width:'150px', height:'300px', }}>
             <Box sx={{width:'150px', height:'225px'}}>
               <Link href={`/views/movie/${movie.id}`}>
-                <img src={`${IMAGE_BASE_URL}/w500${movie.poster_path}` } width='150px'height='225px' style={{borderRadius: "15px"}}/>
+                <Image src={`${IMAGE_BASE_URL}/w500${movie.poster_path}` } alt='포스터 사진진' width={150} height={225} style={{borderRadius: "15px"}}/>
               </Link>
             </Box>
             <Box sx={{width:'150px', height:'50px', whiteSpace:'',paddingTop:'20px', paddingLeft:'5px'}}>

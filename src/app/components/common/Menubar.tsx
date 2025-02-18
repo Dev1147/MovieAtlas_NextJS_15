@@ -1,18 +1,17 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {Menu,AppBar,Box ,Toolbar, Typography, IconButton, Button, MenuItem, Container,Tooltip, Avatar }  from '@mui/material';
+import {Menu,AppBar,Box ,Toolbar, Typography, IconButton, Button, MenuItem, Container,Tooltip, }  from '@mui/material';
 import MovieIcon from '@mui/icons-material/Movie';
 import MenuIcon from '@mui/icons-material/Menu';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { signOut,useSession } from "next-auth/react";
 
 function Menubar() {
-
+  const { data: session } = useSession();//console.log("session:", session); console.log("status:", status);
   const router = useRouter();
 
   const pages = ['영화', '수익', '준비중'];
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -92,35 +91,45 @@ function Menubar() {
     useEffect(() => {
       // 쿠키에서 사용자,권한, 토큰을 읽어오기
       const cookies = document.cookie.split('; ');
-      const userRole = cookies.find(cookie => cookie.startsWith('userrole='));
+      // const userRole = cookies.find(cookie => cookie.startsWith('userrole='));
       const userCookie = cookies.find(cookie => cookie.startsWith('username='));
       //console.log(document.cookie)
-      // console.log(userCookie)
+      //console.log(userCookie)
       if (userCookie) {
-        const userName = userCookie.split('=')[1];
+        const userName = decodeURIComponent(userCookie.split('=')[1]);
        // console.log(userName);
-       setUserName(userName);  // 사용자명을 상태에 저장
+        setUserName(userName);  // 사용자명을 상태에 저장
+      }else{
+        setUserName(session?.user.name ?? null); 
       }
-    }, []);
+
+      
+    }, [session]);
 
     const handleLogout  = async() => {
-      try {
-        const response = await fetch('/api/logout', {
-          method: 'POST',
-          //credentials: 'include',  // 쿠키를 포함하여 요청
-        });
-    
-        const data = await response.json();
-        if (data.success) {
-          console.log('로그아웃 성공');
-          // 로그아웃 후 리디렉션하거나 UI 업데이트 등을 할 수 있습니다.
-          window.location.href = '/views/auth/login';  // 예: 로그인 페이지로 이동
-          //await router.push('/');
-        } else {
-          console.error('로그아웃 실패');
+      if(session){
+        signOut({ callbackUrl: '/views/auth/login' });// OAuth 로그아웃
+      }
+      else{//일반 로그아웃 로직
+        try {
+          const response = await fetch('/api/logout', {
+            method: 'POST',
+            //credentials: 'include',  // 쿠키를 포함하여 요청
+          });
+      
+          const data = await response.json();
+          if (data.success) {
+            console.log('로그아웃 성공');
+            setUserName(null);
+            // 로그아웃 후 리디렉션하거나 UI 업데이트 등을 할 수 있습니다.
+            window.location.href = '/views/auth/login';  // 예: 로그인 페이지로 이동
+            //await router.push('/');
+          } else {
+            console.error('로그아웃 실패');
+          }
+        } catch (error) {
+          console.error('로그아웃 중 오류 발생:', error);
         }
-      } catch (error) {
-        console.error('로그아웃 중 오류 발생:', error);
       }
     }
     
@@ -270,7 +279,7 @@ function Menubar() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 , color:'white'}}>
                 {/* <Avatar alt="Remy Sharp" src="/" /> */}
-                <div>{userName}님! 환영합니다.</div>
+                <div>{userName ? userName : session?.user.name}님! 환영합니다.</div>
               </IconButton>
             </Tooltip>
             <Menu
@@ -297,12 +306,13 @@ function Menubar() {
                 </MenuItem>
               ))} */}
               <Typography sx={{ textAlign: 'center' }}><Button onClick={handleLogout}>로그아웃</Button></Typography>
+              {/* <Button onClick={() => signOut({ callbackUrl: '/views/auth/login' })}>Google 로그아웃</Button> */}
             </Menu>
           </Box>
           ):(
             <Box sx={{ flexGrow: 0 }}>
               {/* <Link href='/auth/login'>로그인</Link> */}
-              <Button color="inherit"  onClick={() => router.push('/views/auth/login')}>Login</Button>
+              <Button color="inherit"  onClick={() => router.push('/views/auth/login')}>Login</Button> 
             </Box>
           )}
 

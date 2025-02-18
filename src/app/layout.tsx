@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Menubar from "./components/common/Menubar";
 import Footer from "./components/common/Footer";
+import ClientSessionProvider from "./components/ClientSessionProvider";
 
   
 const geistSans = Geist({
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
- 
+        <ClientSessionProvider>
           {/* 메뉴바 */}
           <Menubar/>
           
@@ -36,7 +37,7 @@ export default function RootLayout({
           
           {/* Footer */}
           <Footer/>
-
+        </ClientSessionProvider>
       </body>
     </html>
   );

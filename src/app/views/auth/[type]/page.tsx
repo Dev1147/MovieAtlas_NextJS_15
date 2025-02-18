@@ -1,14 +1,15 @@
 "use client";
 // /app/auth/[type].tsx
 import { useRouter,useParams  } from 'next/navigation';  // 'next/router'에서 useRouter 사용
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { TextField, Button, Box, Paper, Alert } from '@mui/material';
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 /*
  NextJS 15+ 에서는 usePrams()로 url의 원하는 값을 가져올 수 있다
 */
 
-const page = () => { //{ params }: { params: { type: string } }
+const Page = () => { //{ params }: { params: { type: string } }
 
   const router = useRouter();
   const { type } = useParams();  // URL에서 'type'을 동적으로 가져옴
@@ -18,6 +19,14 @@ const page = () => { //{ params }: { params: { type: string } }
   // const [password, setPassword] = useState('');
   // const [comparePassword, setComparePassword] = useState('');
 
+  type AuthData = {
+    email: string;
+    name: string;
+    password: string;
+    errorMessage: string;
+    comparePassword: string
+  };
+
   //React_Hook_Form에 사용하는 함수수
   const {
       register,  // form onSubmit에 들어가는 함수
@@ -26,7 +35,7 @@ const page = () => { //{ params }: { params: { type: string } }
       setError, //서버 응답을 기반으로 오류 설정
       clearErrors, //에러 초기화
       formState: { errors }, // errors: register의 에러 메세지 자동 출력
-    } = useForm();
+    } = useForm<AuthData>();
 
 
     useEffect(() => {
@@ -38,12 +47,12 @@ const page = () => { //{ params }: { params: { type: string } }
   },[]);
 
   //비밀번호 확인
-  const password = useRef<HTMLInputElement>(null);; // ref 생성
+  const password = useRef<string | null>(null);; // ref 생성
   password.current = watch("password"); 
 
   //React_Hook_Form 사용시 data를 사용하여 처리해야 됨
 
-  const handleSignInOut = async (data:any) => { //e: React.FormEvent
+  const handleSignInOut: SubmitHandler<AuthData> = async (data) => { //e: React.FormEvent
    // e.preventDefault();
     //로그인
     if (type === 'login') {
@@ -164,9 +173,12 @@ const page = () => { //{ params }: { params: { type: string } }
                 <Button type="submit" variant="contained" color="primary">
                   로그인
                 </Button>
-                <Button  variant="contained" color="primary" onClick={()=>router.push('/auth/signup')}>
+                <Button  variant="contained" color="primary" onClick={()=>router.push('/views//auth/signup')}>
                   회원가입
                 </Button>
+              </Box>
+              <Box>
+                <Button variant='contained' fullWidth onClick={() => signIn('google', { callbackUrl: '/' })}>Google 로그인</Button>
               </Box>
             </Box>
           </Paper>
@@ -239,7 +251,7 @@ const page = () => { //{ params }: { params: { type: string } }
                 <Button type="submit" variant="contained" color="primary">
                   회원가입
                 </Button>
-                <Button  variant="contained" color="primary" onClick={()=>router.push('/auth/login')}>
+                <Button  variant="contained" color="primary" onClick={()=>router.push('/views/auth/login')}>
                   로그인
                 </Button>
               </Box>
@@ -254,4 +266,4 @@ const page = () => { //{ params }: { params: { type: string } }
   );
 };
 
-export default page;
+export default Page;

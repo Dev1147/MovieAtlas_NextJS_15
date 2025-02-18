@@ -1,24 +1,35 @@
 "use client";
-import { Box, Button, Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormLabel, Grid2, Input, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper';
 import { API_URI } from '../../components/Config';
 import MediaPosterCard from '@/app/components/common/MediaPosterCard';
-import MediaCard from '@/app/components/common/MediaCard';
 import MovieSearchBar from '@/app/components/common/MovieSearchBar';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
-function pages() {
+export type MoviesInfo = {
+  id:number, 
+  poster_path:string, 
+  name:string,
+  title:string, 
+  release_date:string, 
+  vote_average:number,
+  runtime:number,
+  backdrop_path:string,
+  origin_country:string,
+  genres:string,
+  tagline:string,
+  overview:string,
+  character:string,
+}
 
-  const [genresInfo, setGenresInfo] =useState<{id:number, name:string}[]>([]);
+function Page() {
+
   const [change, setChange] = useState<string>('popularity');
   const [changeDescAsc, setChangeDescAsc] = useState<string>('desc');
-  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [changeGenres, setChangeGenres] = useState<number[]>([]);
-  const [Movies, setMovies] = useState<any[]>([])
+  const [Movies, setMovies] = useState<MoviesInfo[]>([])
   const [search, setSearch] = useState('');
 
   //인기,최신 핸들러
@@ -45,13 +56,13 @@ function pages() {
         }
 
     }catch(error){
-      console.error("영화 정보 추출 실패!");
+      console.error("영화 정보 추출 실패!",error);
     }
   }
 
   //페이지 더 불러오기
   const leadMoreHandler = () => {
-      let endpointDiscoverMovies: string = `${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=${change}.${changeDescAsc}&page=${currentPage + 1}`//`${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&with_genres=${changeGenres}&sort_by=${change}.${changeDescAsc}&page=${currentPage + 2}`//&with_genres=${GENRE_ID}&sort_by=popularity.desc&page=1` //
+      const endpointDiscoverMovies: string = `${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=${change}.${changeDescAsc}&page=${currentPage + 1}`//`${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&with_genres=${changeGenres}&sort_by=${change}.${changeDescAsc}&page=${currentPage + 2}`//&with_genres=${GENRE_ID}&sort_by=popularity.desc&page=1` //
       fetchDiscoverMovies(endpointDiscoverMovies, Boolean(search));
 
   };
@@ -59,9 +70,9 @@ function pages() {
 
   useEffect(()=>{
 
-    let endpointGenres: string = `${API_URI}genre/movie/list?api_key=${API_KEY}&language=ko-KR`; //장르 ID 정보
-   // let endpointDiscoverMovies: string = `${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=${change}.${changeDescAsc}&page=1`//&with_genres=${changeGenres}&with_genres=${GENRE_ID}&sort_by=popularity.desc&page=1` //
-    let endpointDiscoverMovies:string = search ? `${API_URI}search/movie?api_key=${API_KEY}&query=${search}&include_adult=false&language=en-US`
+    //const endpointGenres: string = `${API_URI}genre/movie/list?api_key=${API_KEY}&language=ko-KR`; //장르 ID 정보
+    //const endpointDiscoverMovies: string = `${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=${change}.${changeDescAsc}&page=1`//&with_genres=${changeGenres}&with_genres=${GENRE_ID}&sort_by=popularity.desc&page=1` //
+    const endpointDiscoverMovies:string = search ? `${API_URI}search/movie?api_key=${API_KEY}&query=${search}&include_adult=false&language=en-US`
     :`${API_URI}discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=${change}.${changeDescAsc}&page=1`
     ;
 
@@ -134,4 +145,4 @@ function pages() {
   )
 }
 
-export default pages
+export default Page
