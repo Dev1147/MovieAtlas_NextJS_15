@@ -1,6 +1,6 @@
 "use client";
 import React,{useState, useEffect} from 'react'
-import { API_URI } from '../../../components/Config';
+import { API_URI } from '../../../components/config';
 import { Box, FormControl, FormControlLabel, FormLabel,Radio, RadioGroup, FormGroup, Checkbox, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import CustomPieChart from '@/app/components/charts/CustomPieChart';

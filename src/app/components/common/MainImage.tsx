@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
+import {API_URI, IMAGE_BASE_URL} from '../config';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 

@@ -2,7 +2,7 @@
 import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper';
-import { API_URI } from '../../components/Config';
+import { API_URI } from '../../components/config';
 import MediaPosterCard from '@/app/components/common/MediaPosterCard';
 import MovieSearchBar from '@/app/components/common/MovieSearchBar';
 

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import {API_URI} from '../Config';
+import {API_URI} from '../config';
 
 import { Box, Tabs, Tab, Typography } from '@mui/material';
 import TrendRowListPage from './TrendRowListPage';

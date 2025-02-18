@@ -1,5 +1,5 @@
 import React from 'react';
-import {IMAGE_BASE_URL } from '../Config';
+import {IMAGE_BASE_URL } from '../config';
 import { Box, Link, Paper} from '@mui/material';
 import style from '../style/style.module.css';
 import Image from 'next/image';

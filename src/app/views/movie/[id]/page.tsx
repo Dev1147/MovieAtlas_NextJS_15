@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import { API_URI,IMAGE_BASE_URL } from '../../../components/Config';
+import { API_URI,IMAGE_BASE_URL } from '../../../components/config';
 import { useParams } from 'next/navigation';
 import { Box, Button, Chip, Grid2, Rating, Tab, Typography } from '@mui/material';
 import MediaCard from '@/app/components/common/MediaCard';

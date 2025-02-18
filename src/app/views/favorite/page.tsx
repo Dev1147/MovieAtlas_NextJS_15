@@ -1,5 +1,5 @@
 "use client";
-import { IMAGE_BASE_URL } from '@/app/components/Config'
+import { IMAGE_BASE_URL } from '@/app/components/config'
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 

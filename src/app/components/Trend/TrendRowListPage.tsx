@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import {IMAGE_BASE_URL} from '../Config';
+import {IMAGE_BASE_URL} from '../config';
 import { Box, Paper } from '@mui/material';
 import style from '../style/style.module.css';
 import Average from '../common/Average';

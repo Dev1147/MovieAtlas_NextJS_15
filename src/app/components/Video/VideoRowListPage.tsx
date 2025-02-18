@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import {API_URI, IMAGE_BASE_URL} from '../Config';
+import {API_URI, IMAGE_BASE_URL} from '../config';
 import style from '../style/style.module.css';
 import { Box, Button, IconButton, Modal } from "@mui/material";
 import { PlayArrow } from '@mui/icons-material';
