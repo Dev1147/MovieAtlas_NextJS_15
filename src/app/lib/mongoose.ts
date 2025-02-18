@@ -50,6 +50,7 @@ export async function connectToDatabase() {
       dbName: "test", // 데이터베이스 이름 설정
       bufferCommands: false,
       serverSelectionTimeoutMS: 5000,  // 서버 선택 타임아웃
+      ssl: true, // SSL 연결 필요시
     })
     .then((mongooseInstance) => {
       console.log("몽고디비 접속 성공!");
