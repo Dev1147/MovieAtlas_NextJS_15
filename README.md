@@ -4,7 +4,7 @@ MovieAtlas는 사용자에게 다양한 영화 정보를 제공하는 웹 애플
 
 ### 접속 링크
 ---
-링크: https://movie-atlas-next-js-15.vercel.app/views/auth/login
+링크: https://movie-atlas-next-js-15.vercel.app
 
 ### 이미지
 ---
