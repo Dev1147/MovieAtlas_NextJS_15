@@ -15,7 +15,6 @@ const FavoriteSchema: Schema<IFavorite> = new Schema<IFavorite>(
     movieId: {
       type: Number,
       required: true,
-      unique: true,
     },
     movieTitle: {
       type: String,
