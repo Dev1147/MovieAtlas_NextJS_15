@@ -117,7 +117,7 @@ const Page = () => { //{ params }: { params: { type: string } }
 
         alert('회원가입 성공');
   
-        router.push('/auth/login');
+        router.push('/views/auth/login');
       } else {
         
         alert(resdata.message);
