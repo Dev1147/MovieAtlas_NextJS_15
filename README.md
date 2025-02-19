@@ -1,4 +1,4 @@
-### 프로젝트 개요
+![스크린샷 2025-02-16 181925](https://github.com/user-attachments/assets/9e44f4a7-7ec7-40af-94e9-4a2ebae75621)### 프로젝트 개요
 
 MovieAtlas는 사용자에게 다양한 영화 정보를 제공하는 웹 애플리케이션입니다. 사용자는 영화 목록을 탐색하고, 각 영화의 상세 정보 및 출연진 목록을 확인할 수 있습니다. 그리고 로그인하여 영화별로 예산, 수익에 관한 차트를 넣어 시각적으로 표현하고 있습니다.이 프로젝트는 React와 Next.js를 사용해 개발했으며, Vercel을 통해 배포되었습니다.
 
@@ -40,7 +40,9 @@ MovieAtlas는 사용자에게 다양한 영화 정보를 제공하는 웹 애플
 ### MovieAtlas 이미지
 
 - **메인 페이지 이미지**
-    
+
+    ![스크린샷 2025-02-16 181925](https://github.com/user-attachments/assets/1d4ccf6f-cf02-434c-8e01-d21741dddb55)
+
     ![image.png](attachment:49b07216-8f53-40e8-84d1-e2e8f8ea0966:image.png)
     
     ![image.png](attachment:d136fc8a-b486-4559-a99b-d6a371415db1:image.png)
