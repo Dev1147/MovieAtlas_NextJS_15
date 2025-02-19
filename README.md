@@ -43,44 +43,38 @@ MovieAtlas는 사용자에게 다양한 영화 정보를 제공하는 웹 애플
 
     ![스크린샷 2025-02-16 181925](https://github.com/user-attachments/assets/1d4ccf6f-cf02-434c-8e01-d21741dddb55)
 
-    ![image.png](attachment:49b07216-8f53-40e8-84d1-e2e8f8ea0966:image.png)
-    
-    ![image.png](attachment:d136fc8a-b486-4559-a99b-d6a371415db1:image.png)
-    
+    ![스크린샷 2025-02-19 221701](https://github.com/user-attachments/assets/ba2d6d80-fcac-480a-b828-3ee088e62254)
 
 - **영화 상세 페이지 이미지**
     
-    ![image.png](attachment:1b497ce7-b582-43a2-ae28-387089a85e70:32b4a621-01eb-4c0a-9a75-2de32d907c8d.png)
-    
-    ![image.png](attachment:25c059bc-c4db-41b1-851d-f44e70072134:image.png)
-    
+    ![스크린샷 2025-02-19 221857](https://github.com/user-attachments/assets/ff40f3c7-509f-410a-99f7-83fb45732d29)
+
+    ![스크린샷 2025-02-19 221915](https://github.com/user-attachments/assets/e4e0c22b-a44e-457b-9a89-4e2181455a37)
 
 - **로그인 페이지 이미지**
     
-    ![image.png](attachment:3399f92f-5892-4a1c-8920-f6e67f7dc292:image.png)
-    
-    ![image.png](attachment:28e23aa3-eaff-43ad-a5a5-6839650a7d9d:image.png)
-    
+    ![스크린샷 2025-02-19 221451](https://github.com/user-attachments/assets/34726f63-534d-4351-88e5-e623e983880c)
+
+    ![스크린샷 2025-02-19 222013](https://github.com/user-attachments/assets/e809ccae-be15-4701-bee8-471b013b2f1c)
+
 
 - **회원가입 페이지 이미지**
-    
-    ![image.png](attachment:d60a3558-bf79-429d-8f79-10816939e8a4:image.png)
-    
-    ![image.png](attachment:e0c1a7b1-21ee-4dde-a232-779d6f2f3da6:image.png)
-    
+
+    ![스크린샷 2025-02-19 222048](https://github.com/user-attachments/assets/9aeff410-d7d9-4161-afd3-f825fa766549)
+
+    ![스크린샷 2025-02-19 222149](https://github.com/user-attachments/assets/2cb28a3b-efeb-47ae-87db-daef833bb3b6)
+
 - **영화 검색 페이지**
     
-    ![image.png](attachment:e49a98f8-359c-4cd5-ae76-f77f31bd656b:image.png)
-    
+    ![스크린샷 2025-02-19 222238](https://github.com/user-attachments/assets/d3a93dc3-62a4-4c14-b1fd-655f7a88ca0f)
+
 
 - **좋아요 페이지 이미지**
-    
-    ![image.png](attachment:8c5102c7-3e6b-4515-9fa5-64dc26f03754:image.png)
-    
+
+    ![스크린샷 2025-02-19 222454](https://github.com/user-attachments/assets/239f6e22-128d-4d23-8c59-de5106e57add)
 
 - **차트 데이터 시각화 페이지 이미지**
-    
-    ![image.png](attachment:317d0928-0137-4f66-9c51-09052f71a085:image.png)
-    
-    ![image.png](attachment:7374234e-a0c2-4a8b-b59d-ac6765f8fa51:image.png)
 
+    ![스크린샷 2025-02-19 222544](https://github.com/user-attachments/assets/e5ffdd84-5834-4f1f-a551-b704bb6ce5e3)
+
+    ![스크린샷 2025-02-19 222600](https://github.com/user-attachments/assets/0eeaf4ed-bacb-4d98-8b2d-ff457fd597d8)
