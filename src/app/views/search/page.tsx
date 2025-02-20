@@ -3,7 +3,7 @@ import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGrou
 import React, { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper';
 import { API_URI } from '../../components/config';
-import MediaPosterCard from '@/app/components/common/MediaPosterCard';
+import MediaPosterCard from '@/app/components/ui/MediaPosterCard';
 import MovieSearchBar from '@/app/components/common/MovieSearchBar';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";

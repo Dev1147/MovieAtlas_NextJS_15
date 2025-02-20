@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { API_URI,IMAGE_BASE_URL } from '../../../components/config';
 import { useParams } from 'next/navigation';
 import { Box, Button, Chip, Grid2, Rating, Tab, Typography } from '@mui/material';
-import MediaCard from '@/app/components/common/MediaCard';
+import MediaCard from '@/app/components/ui/MediaCard';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import LargeAverage from '../../../components/common/LargeAverage';
 import LikeButton from '@/app/components/common/LikeButton';
-import VideoModal from '@/app/components/common/VideoModal';
+import VideoModal from '@/app/components/ui/VideoModal';
 import Image from 'next/image';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";

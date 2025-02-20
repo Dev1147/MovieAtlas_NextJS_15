@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
-function MainVideoRowListPage({videoInfo }:{videoInfo:{id:number, backdrop_path:string}[]}) {
+function ModalVideoCartd({videoInfo }:{videoInfo:{id:number, backdrop_path:string}[]}) {
 
   const [videoKey, setVideoKey] = useState<{key:string | null, name:string | null}>({key:null, name:null});
 
@@ -144,4 +144,4 @@ function MainVideoRowListPage({videoInfo }:{videoInfo:{id:number, backdrop_path:
   )
 }
 
-export default MainVideoRowListPage
+export default ModalVideoCartd
