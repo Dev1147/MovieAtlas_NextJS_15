@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import { API_URI,IMAGE_BASE_URL } from '../../../components/config';
 import { useParams } from 'next/navigation';
-import { Box, Button, Chip, Grid2, Rating, Tab, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid2, Rating, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import MediaCard from '@/app/components/ui/MediaCard';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import LargeAverage from '../../../components/common/LargeAverage';
 import LikeButton from '@/app/components/common/LikeButton';
 import VideoModal from '@/app/components/ui/VideoModal';
 import Image from 'next/image';
+import CustomBarChart from '@/app/components/charts/CustomBarChart';
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
@@ -27,6 +28,8 @@ export type MoviesInfo = {
   overview:string, 
   profile_path: string,
   character: string
+  budget:number,
+  revenue:number,
 }
 
 function Page() {
@@ -40,7 +43,8 @@ function Page() {
  // const [video, setVideo] = useState<string[]>([]);
   const [visibleCount, setvisibleCount] = useState(7);
   const [tabInfo, setTabInfo] = useState<string>('casts');
-  
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
+
   useEffect(()=>{
     //영화 출연진
     const endpointCrew = `${API_URI}movie/${id}/credits?api_key=${API_KEY}`;
@@ -59,7 +63,7 @@ function Page() {
     const fetchCrewInfo = async () => {
       const res = await fetch(endpointCrew);
       const data = await res.json();
-      console.log(data)
+      //console.log(data)
       setCasts(data.cast);
       setCrews(data.crew);
     }
@@ -78,6 +82,14 @@ function Page() {
       //const cookies = document.cookie.split('; ');
       // const userRole = cookies.find(cookie => cookie.startsWith('userrole='));
       // const userCookie = cookies.find(cookie => cookie.startsWith('username='));
+
+      const fetchExchangeRate = async () => {
+        const res = await fetch("https://open.er-api.com/v6/latest/USD"); // 예제 API (무료)
+        const data = await res.json();
+        setExchangeRate(data.rates.KRW) // KRW 환율 반환
+      };
+
+      fetchExchangeRate();
   },[id])
 
   if (!movie) return <p>Loading...</p>; 
@@ -120,6 +132,14 @@ function Page() {
   // const closeModal = () => {
   //   setModalIsOpen(false);
   // };
+
+
+  const chartData = [{
+    title: movie.title, // 영화 제목
+    budget: isNaN(movie.budget) ? 0 : movie.budget, // 예산
+    revenue: isNaN(movie.revenue) ? 0 : movie.revenue , // 수익
+    }
+  ]
 
 
   return (
@@ -207,8 +227,32 @@ function Page() {
           </TabPanel>
         </TabContext>
       </Grid2>
+      
+      <Grid2 sx={{padding:'10px'}}>
+        <Box sx={{marginBottom:'10px', borderBottom: '1px solid #ccc'}}>
+          <Typography variant='h5'>수익 차트</Typography>
+        </Box>
+        <CustomBarChart dataInfo={chartData} showMargin={true}/>
+      </Grid2>
 
-
+      <TableContainer sx={{padding:'15px'}}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">제작비(원) 현재환율:{(exchangeRate).toFixed(2)}</TableCell>
+            <TableCell align="center">수익(원)</TableCell>
+            <TableCell align="center">수익률(%)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align="center">{new Intl.NumberFormat('ko-KR').format(movie.budget * exchangeRate)}</TableCell>
+            <TableCell align="center">{new Intl.NumberFormat('ko-KR').format(movie.revenue * exchangeRate)}</TableCell>
+            <TableCell align="center">{ ((movie.revenue - movie.budget) / movie.budget * 100).toFixed(2) }</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
         
       
 

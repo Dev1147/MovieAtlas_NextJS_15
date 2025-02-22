@@ -242,7 +242,7 @@ function Page() {
 
         <Box sx={{paddingLeft:'15px'}}>
           {/* 바 차트 */}
-          <CustomBarChart dataInfo={moviesDetailInfo}/>
+          <CustomBarChart dataInfo={moviesDetailInfo} showMargin={false}/>
 
           {/*파이 차트 */}
           <CustomPieChart dataInfo={moviesDetailInfo}/>

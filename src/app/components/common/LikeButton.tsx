@@ -1,3 +1,4 @@
+"use client";
 import { IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { jwtDecode } from "jwt-decode";
@@ -21,7 +22,8 @@ export type MoviesInfo = {
 function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle:string,moviePoster:string}) {
   const [FavoriteNumber, setFavoriteNumber] = useState(0);  
   const [Favorited, setFavorited] = useState(false); 
-  const { data: session } = useSession();
+  const { data: session } = useSession(); //console.log(session);
+
   const variables = {
     movieId: movieId,
     movieTitle: movieTitle,
@@ -53,6 +55,8 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
   };
 
   useEffect(() => {
+    if(!session) return;
+
     const fetchFavoriteInfo = async () => {
       const res = await fetch(`/api/favorite/${movieId}`,
         {
@@ -73,7 +77,7 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
     }
 
     fetchFavoriteInfo();
-  },[movieId]);
+  },[movieId, session]);
 
   const onClickFavorited = async() => {
     //OAuth 토큰 추가
