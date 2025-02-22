@@ -228,6 +228,7 @@ function Page() {
         </TabContext>
       </Grid2>
       
+      {/* 수익 차트 */}
       <Grid2 sx={{padding:'10px'}}>
         <Box sx={{marginBottom:'10px', borderBottom: '1px solid #ccc'}}>
           <Typography variant='h5'>수익 차트</Typography>
@@ -235,11 +236,13 @@ function Page() {
         <CustomBarChart dataInfo={chartData} showMargin={true}/>
       </Grid2>
 
+      {/* 수익 테이블 */}
+      <Box>오늘의 환율:{(exchangeRate).toFixed(2)}</Box>
       <TableContainer sx={{padding:'15px'}}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">제작비(원) 현재환율:{(exchangeRate).toFixed(2)}</TableCell>
+            <TableCell align="center">제작비(원)</TableCell>
             <TableCell align="center">수익(원)</TableCell>
             <TableCell align="center">수익률(%)</TableCell>
           </TableRow>

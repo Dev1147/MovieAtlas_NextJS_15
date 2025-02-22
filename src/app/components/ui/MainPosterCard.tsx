@@ -10,6 +10,7 @@ import Image from 'next/image';
 function MainPosterCard({movieInfo}:{movieInfo:{id: number, poster_path:string, title:string, release_date:string, vote_average:number}[]}) {
   return (
     <div>
+      
       {/* 영화 콘텐츠 리스트 */}
       <Box sx={{display: 'flex', overflowX: 'auto', gap: '20px', width:'100%', height:'350px', alignItems:'center', paddingLeft:'25px',paddingRight:'25px'}}>
         {Array.isArray(movieInfo) && movieInfo.slice(0,10).map((movie, index) => (  
