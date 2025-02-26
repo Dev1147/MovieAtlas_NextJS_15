@@ -11,7 +11,11 @@ function Menubar() {
   const { data: session } = useSession();//console.log("session:", session); console.log("status:", status);
   const router = useRouter();
 
-  const pages = ['영화', '수익', '준비중'];
+  const pages = [
+    { name: '영화', path: '/views/search' },
+    { name: '수익', path: '/views/charts/bar_chart' },
+    { name: '좋아요', path: '/views/favorite' }
+  ];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -185,9 +189,9 @@ function Menubar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+              {pages.map((page, index) => (
+                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                  <Typography sx={{ textAlign: 'center' }}> <Link href={page.path} passHref>{page.name}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
