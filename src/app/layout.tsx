@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Menubar from "./components/layout/Menubar";
+// import Menubar from "./components/layout/Menubar";
 import Footer from "./components/layout/Footer";
-import ClientSessionProvider from "./components/ClientSessionProvider";
+import ClientSessionProvider from "./providers/ClientSessionProvider";
+import ClientThemeProvider from "./providers/ClientThemeProvider";
 
   
 const geistSans = Geist({
@@ -30,8 +31,11 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body >
         <ClientSessionProvider>
+
+          {/* 다크 모드 적용된 메뉴바*/}
+          <ClientThemeProvider/>
           {/* 메뉴바 */}
-          <Menubar/>
+          {/* <Menubar/> */}
           
           {children}
           

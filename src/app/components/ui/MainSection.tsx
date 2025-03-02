@@ -1,9 +1,11 @@
-import {Box, Tab, Tabs, Typography } from '@mui/material';
+import {Box, styled, Tab, Tabs, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import ModalVideoCartd from './ModalVideoCartd';
 import {API_URI} from '../config';
 import MainPosterCard from './MainPosterCard';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
+
+
 
 // 섹션 타입 
 export enum SectionTypeEnum {

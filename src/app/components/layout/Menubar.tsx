@@ -6,8 +6,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signOut,useSession } from "next-auth/react";
+import DarkModeButton from '../common/DarkModeButton';
 
-function Menubar() {
+interface MenuBarProps {
+  isDarkMode: boolean;
+  buttonTheme: () => void;
+}
+
+function Menubar({isDarkMode, buttonTheme}:MenuBarProps) {
   const { data: session } = useSession();//console.log("session:", session); console.log("status:", status);
   const router = useRouter();
 
@@ -319,7 +325,7 @@ function Menubar() {
               <Button color="inherit"  onClick={() => router.push('/views/auth/login')}>Login</Button> 
             </Box>
           )}
-
+          <DarkModeButton isDarkMode={isDarkMode} buttonTheme={buttonTheme}/>
         </Toolbar>
       </Container>
     </AppBar>
