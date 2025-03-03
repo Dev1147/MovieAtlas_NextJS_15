@@ -8,6 +8,7 @@ import MainSection, {SectionTypeEnum} from './components/ui/MainSection';
 export default function Home() {
   return (
     <div>
+
       {/* 대표 이미지 */}
       <MainImage/>
 

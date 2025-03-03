@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { jwtDecode } from "jwt-decode";
 import {  Favorite, FavoriteBorder, } from '@mui/icons-material';
 import { useSession } from 'next-auth/react';
+import { parse } from 'cookie';
 
 export type MoviesInfo = {
   id:number, 
@@ -23,6 +24,23 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
   const [FavoriteNumber, setFavoriteNumber] = useState(0);  
   const [Favorited, setFavorited] = useState(false); 
   const { data: session } = useSession(); //console.log(session);
+
+  const getLoginInfoFromCookie = () => {
+    if (typeof window !== 'undefined') {
+      const cookies = parse(document.cookie);
+      const token = cookies.token;
+      const userRole = cookies.userrole;
+      const username = cookies.username;
+  
+      // console.log('토큰:', token);
+      // console.log('사용자 역할:', userRole);
+      // console.log('사용자 이름:', username);
+  
+      // 쿠키 정보가 있으면 반환
+      return { token, userRole, username };
+    }
+    return null;
+  };
 
   const variables = {
     movieId: movieId,
@@ -55,9 +73,11 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
   };
 
   useEffect(() => {
-    if(!session) return;
 
     const fetchFavoriteInfo = async () => {
+      const loginInfo = await getLoginInfoFromCookie();
+      if(!loginInfo)return;
+
       const res = await fetch(`/api/favorite/${movieId}`,
         {
           method: "GET",

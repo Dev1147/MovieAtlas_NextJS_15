@@ -8,12 +8,12 @@ import Link from 'next/link';
 import { signOut,useSession } from "next-auth/react";
 import DarkModeButton from '../common/DarkModeButton';
 
-interface MenuBarProps {
-  isDarkMode: boolean;
-  buttonTheme: () => void;
-}
+// interface MenuBarProps {
+//   isDarkMode: boolean;
+//   buttonTheme: () => void;
+// }{isDarkMode, buttonTheme}:MenuBarProps
 
-function Menubar({isDarkMode, buttonTheme}:MenuBarProps) {
+function Menubar() {
   const { data: session } = useSession();//console.log("session:", session); console.log("status:", status);
   const router = useRouter();
 
@@ -325,7 +325,7 @@ function Menubar({isDarkMode, buttonTheme}:MenuBarProps) {
               <Button color="inherit"  onClick={() => router.push('/views/auth/login')}>Login</Button> 
             </Box>
           )}
-          <DarkModeButton isDarkMode={isDarkMode} buttonTheme={buttonTheme}/>
+          <DarkModeButton/>
         </Toolbar>
       </Container>
     </AppBar>

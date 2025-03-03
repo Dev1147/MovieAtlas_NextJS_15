@@ -22,7 +22,9 @@ interface SectionType {
   sub1: TabType,
   sub2: TabType,
   sub3?: TabType
-}
+};
+
+
 
 function MainSection({type, title, sub1, sub2, sub3}:SectionType) {
   const [moviePopularList, setMoviePopularList] = useState<{id: number, poster_path:string, title:string, backdrop_path:string, release_date: string, vote_average:number}[]>([]);

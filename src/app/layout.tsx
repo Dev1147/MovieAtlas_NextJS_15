@@ -4,7 +4,8 @@ import "./globals.css";
 // import Menubar from "./components/layout/Menubar";
 import Footer from "./components/layout/Footer";
 import ClientSessionProvider from "./providers/ClientSessionProvider";
-import ClientThemeProvider from "./providers/ClientThemeProvider";
+import { ThemeContextProvider } from "./contexts/ThemeContext";
+import Menubar from "./components/layout/Menubar";
 
   
 const geistSans = Geist({
@@ -31,16 +32,15 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body >
         <ClientSessionProvider>
+          <ThemeContextProvider>
+            {/* 메뉴바 */}
+            <Menubar/>
+            
+            {children}
 
-          {/* 다크 모드 적용된 메뉴바*/}
-          <ClientThemeProvider/>
-          {/* 메뉴바 */}
-          {/* <Menubar/> */}
-          
-          {children}
-          
-          {/* Footer */}
-          <Footer/>
+            {/* Footer */}
+            <Footer/>
+          </ThemeContextProvider>
         </ClientSessionProvider>
       </body>
     </html>
