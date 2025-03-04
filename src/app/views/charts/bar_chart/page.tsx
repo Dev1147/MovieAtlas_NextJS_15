@@ -11,7 +11,7 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 function Page() {
 
   const [genresInfo, setGenresInfo] =useState<{id:number, name:string}[]>([]);
-  const [moviesIds, setMoviesIds] =useState<number[]>([]);
+  const [moviesIds] =useState<number[]>([]); //setMoviesIds
   const [moviesDetailInfo, setMoviesDetailInfo] =useState<{title:string, budget:number, revenue: number}[]>([]);
   const [change, setChange] = useState<string>('popularity');
   const [changeDescAsc, setChangeDescAsc] = useState<string>('desc');
@@ -30,16 +30,29 @@ function Page() {
     }
   }
 
- const fetchGetMoviesIds = async(endpoint: string) => {
-    try{
-      const res = await fetch(endpoint);
-      const data = await res.json();  
-      const movieIds = data.results.map((movie:{id:number}) => movie.id);
-      setMoviesIds(movieIds);   
+//  const fetchGetMoviesIds = async(endpoint: string) => {
+//     try{
+//       const res = await fetch(endpoint);
+//       const data = await res.json();  
+//       const movieIds = data.results.map((movie:{id:number}) => movie.id);
+//       setMoviesIds(movieIds);   
 
-    }catch(error){
-      console.error("영화ID 가져오기 실패!",error);
-    }
+//     }catch(error){
+//       console.error("영화ID 가져오기 실패!",error);
+//     }
+//   }
+
+const fetchMovieList = async(endpoint: string) => {
+  try{
+    const res = await fetch(endpoint);
+    const data = await res.json();  
+    const movieIds = data.results.map((movie:{id:number}) => movie.id);
+    
+    return  movieIds
+
+  }catch(error){
+    console.error("영화ID 가져오기 실패!",error);
+  }
 }
 
 
@@ -82,21 +95,23 @@ function Page() {
     // let endpointMoviesDetail: string = `${API_URI}movie/${id}?api_key=${API_KEY}&language=ko-KR`
 
     fetchGenres(endpointGenres);
-    fetchGetMoviesIds(endpointMovies);
+    //fetchGetMoviesIds(endpointMovies);
 
     const fetchGetMoviesDetail = async() => {
+
+      const movies = await fetchMovieList(endpointMovies); //이 방법과 usestate로 받은 moviesIds로 할때 큰 성능 차이는 없었다.
       try{
     
         const dataDetailedMovies   = await Promise.all(
-          moviesIds //.filter((movie) => movie.budget > 0 && movie.revenue > 0)
-          .map((id) =>
-            fetch(`${API_URI}movie/${id}?api_key=${API_KEY}&language=ko-KR`)
+          movies//moviesIds //.filter((movie) => movie.budget > 0 && movie.revenue > 0)
+          .map((movieId:string) =>
+            fetch(`${API_URI}movie/${movieId}?api_key=${API_KEY}&language=ko-KR`)
               .then(res => res.json())    
           )    
         );
     
         setMoviesDetailInfo(dataDetailedMovies);   
-    
+
       }catch(error){
         console.error("영화 정보 가져오기 실패!",error);
       }

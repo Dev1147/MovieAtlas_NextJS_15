@@ -25,6 +25,7 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
   const [Favorited, setFavorited] = useState(false); 
   const { data: session } = useSession(); //console.log(session);
 
+  //쿠키에 사용자 정보 가져오기
   const getLoginInfoFromCookie = () => {
     if (typeof window !== 'undefined') {
       const cookies = parse(document.cookie);
@@ -35,6 +36,10 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
       // console.log('토큰:', token);
       // console.log('사용자 역할:', userRole);
       // console.log('사용자 이름:', username);
+
+      if (token === undefined && userRole === undefined && username === undefined) {
+        return null; 
+      }
   
       // 쿠키 정보가 있으면 반환
       return { token, userRole, username };
@@ -72,32 +77,35 @@ function LikeButton({movieId,movieTitle,moviePoster}:{movieId:number, movieTitle
 
   };
 
+  //사용자 좋아요 클릭 정보 가져오기기
+  const fetchFavoriteInfo = async () => {
+    const res = await fetch(`/api/favorite/${movieId}`,
+      {
+        method: "GET",
+        headers:{"Content-Type": "application/json"},
+        credentials: 'include',
+        //body:JSON.stringify({ variables })
+        
+      }, 
+    );
+    const data = await res.json();
+    if(data.success){
+      console.log(data);
+      setFavorited(data.favorited);
+      setFavoriteNumber(data.favoriteNumber);
+    } 
+  };
+
   useEffect(() => {
-
-    const fetchFavoriteInfo = async () => {
-      const loginInfo = await getLoginInfoFromCookie();
-      if(!loginInfo)return;
-
-      const res = await fetch(`/api/favorite/${movieId}`,
-        {
-          method: "GET",
-          headers:{"Content-Type": "application/json"},
-          credentials: 'include',
-          //body:JSON.stringify({ variables })
-          
-        }, 
-      );
-      const data = await res.json();
-      if(data.success){
-        console.log(data);
-        setFavorited(data.favorited);
-        setFavoriteNumber(data.favoriteNumber);
-      }
-      
+    //일반 로그인 정보 없을시 호출 중단
+    const loginInfo = getLoginInfoFromCookie();
+    if (!loginInfo || !loginInfo.token || !loginInfo.userRole || !loginInfo.username) {
+      //console.log("쿠키 정보 없음, 요청 중단");
+      return;
+    }else{
+      fetchFavoriteInfo();
     }
-
-    fetchFavoriteInfo();
-  },[movieId, session]);
+  },[fetchFavoriteInfo]);
 
   const onClickFavorited = async() => {
     //OAuth 토큰 추가
