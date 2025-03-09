@@ -36,7 +36,7 @@ MovieAtlas는 사용자에게 다양한 영화 정보를 제공하는 웹 애플
 - **폼 상태 관리 및 사용자 경험 개선**: React Hook Form을 활용하여 최소한의 렌더링으로 폼 상태를 효율적으로 관리하고, watch를 이용해 비밀번호 확인 입력값을 실시간으로 검증하는 기능을 추가했습니다. 또한, 에러 메시지를 동적으로 렌더링하여 사용자에게 직관적인 입력 오류 피드백을 제공했습니다.
 ### **배운 점**
 
-- **Next.js vs React+Vite 차이**: Next.js는 **SSR(Server-Side Rendering)**과 **SSG(Static Site Generation)**를 지원하여 첫 페이지 로딩 속도가 빠르고, SEO 최적화가 가능합니다. 반면, Vite는 CSR(Client-Side Rendering) 중심이어서 첫 로딩 속도가 느릴 수 있지만, 페이지 간 이동 속도는 Next.js보다 빠른 편이었습니다.웹앱의 목적에 따라 CSR 또는 SSR을 선택하면, 예를 들어 SEO가 중요한 콘텐츠 중심의 웹사이트라면 SSR이 적합하고, 빠른 인터랙션과 실시간 데이터 업데이트가 중요한 앱이라면 CSR이 더 효과적일 수 있다는 것을 깨달았습니다.
+- **Next.js vs React+Vite 차이**: Next.js는 SSR(Server-Side Rendering)과 SSG(Static Site Generation)를 지원하여 첫 페이지 로딩 속도가 빠르고, SEO 최적화가 가능합니다. 반면, Vite는 CSR(Client-Side Rendering) 중심이어서 첫 로딩 속도가 느릴 수 있지만, 페이지 간 이동 속도는 Next.js보다 빠른 편이었습니다.웹앱의 목적에 따라 CSR 또는 SSR을 선택하면, 예를 들어 SEO가 중요한 콘텐츠 중심의 웹사이트라면 SSR이 적합하고, 빠른 인터랙션과 실시간 데이터 업데이트가 중요한 앱이라면 CSR이 더 효과적일 수 있다는 것을 깨달았습니다.
 - **개발 편의성**:Next.js는 API Routes를 제공하여 백엔드 없이 간단한 서버 기능을 구현할 수 있었고, 인증 구현도 상대적으로 간편했습니다. Vite에서는 별도로 Express 등의 백엔드 서버를 구축해야 하는 번거로움이 있었습니다.
 - **API 연동**: 외부 API와의 연동을 통해 실시간 영화 정보를 제공하는 방법을 익혔습니다.
 - **데이터 시각화**: Chart.js를 활용하여 복잡한 데이터를 시각적으로 표현하는 방법을 배웠습니다.
