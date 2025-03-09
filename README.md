@@ -18,7 +18,7 @@ MovieAtlas는 사용자에게 다양한 영화 정보를 제공하는 웹 애플
 
 **UI**: MUI UI (Material UI)
 
-**기타**: Next-Auth, JWT, bcrypt, openssl, PostMan
+**기타**: Next-Auth, JWT, bcrypt, openssl, PostMan, React Hook Form
 
 ### **주요 기능**
 
